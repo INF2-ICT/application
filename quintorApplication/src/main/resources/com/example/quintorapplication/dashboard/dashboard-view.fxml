@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="705.0" prefWidth="1232.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quintorapplication.SceneController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="705.0" prefWidth="1232.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quintorapplication.controller.DashboardController">
    <Button alignment="CENTER" contentDisplay="CENTER" layoutX="223.0" layoutY="234.0" mnemonicParsing="false" prefHeight="157.0" prefWidth="170.0" style="-fx-background-color: #a9a9a9;" text="LEDENADMINISTRATIE" textAlignment="JUSTIFY" />
    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="541.0" layoutY="137.0" text="Dashboard">
       <font>
@@ -13,7 +13,7 @@
       </font>
    </Label>
    <Button alignment="CENTER" contentDisplay="CENTER" layoutX="428.0" layoutY="234.0" mnemonicParsing="false" onAction="#switchToKasgeld" prefHeight="157.0" prefWidth="170.0" style="-fx-background-color: #a9a9a9;" text="KASGELD DECLAREREN" />
-   <Button alignment="CENTER" contentDisplay="CENTER" layoutX="633.0" layoutY="234.0" mnemonicParsing="false" prefHeight="157.0" prefWidth="170.0" style="-fx-background-color: #a9a9a9;" text="INLEZEN MT940" />
+   <Button alignment="CENTER" contentDisplay="CENTER" layoutX="633.0" layoutY="234.0" mnemonicParsing="false" onAction="#switchToMt940Inlezen" prefHeight="157.0" prefWidth="170.0" style="-fx-background-color: #a9a9a9;" text="INLEZEN MT940" />
    <Button alignment="CENTER" contentDisplay="CENTER" layoutX="839.0" layoutY="234.0" mnemonicParsing="false" prefHeight="157.0" prefWidth="170.0" style="-fx-background-color: #a9a9a9;" text="OVERZICHT REKENINGEN" />
    <Button alignment="CENTER" contentDisplay="CENTER" layoutX="222.0" layoutY="423.0" mnemonicParsing="false" prefHeight="157.0" prefWidth="170.0" style="-fx-background-color: #a9a9a9;" text="+">
       <font>

@@ -13,13 +13,19 @@ import java.io.IOException;
 public class DashboardController {
 
     private Stage stage;
-
-    public void switchToKasgeld() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(StarterApplication.class.getResource("dashboard/dashboard-view.fxml"));
+    public void switchToKasgeld(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(StarterApplication.class.getResource("kasgeld/kasgeld-view.fxml"));
+        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.show();
     }
-
+    public void switchToMt940Inlezen(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(StarterApplication.class.getResource("mt940inlezen/MT940.fxml"));
+        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+        stage.show();
+    }
 
 }

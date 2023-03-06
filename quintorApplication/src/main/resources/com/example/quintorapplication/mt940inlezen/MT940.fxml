@@ -4,8 +4,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -21,7 +19,7 @@
 <!--</image>-->
 <!--</ImageView>-->
 
-<GridPane hgap="10" prefHeight="401.0" prefWidth="247.0" vgap="10" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quintorapplication.controller.LoginController">
+<GridPane hgap="10" prefHeight="401.0" prefWidth="247.0" vgap="10" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quintorapplication.controller.Mt940FileAddController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -52,11 +50,9 @@
             <RowConstraints vgrow="ALWAYS" />
          </rowConstraints>
       </GridPane>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Halant;" styleClass="h1" text="Boekhouding" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-      <Label fx:id="welcomeText" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-      <TextField fx:id="text" promptText="Email" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5;" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" maxWidth="250"/>
-      <PasswordField fx:id="text1" promptText="Wachtwoord" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5;" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" maxWidth="250"/>
-      <Button fx:id="loginButton" onAction="#onLoginButtonClick" style="-fx-background-color: white; -fx-border-color: blue; -fx-border-radius: 5; -fx-font-style: blue;" text="Inloggen" textFill="#1977cf" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Halant;" styleClass="h1" text="MT940 inlezen" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+      <Label prefHeight="18.0" prefWidth="258.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+      <Button style="-fx-background-color: white; -fx-border-color: blue; -fx-border-radius: 5; -fx-font-style: blue;" text="Voeg toe" textFill="#1977cf" GridPane.halignment="CENTER" GridPane.rowIndex="4">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -75,5 +71,15 @@
          </ImageView>
          <Region prefWidth="58.0" HBox.hgrow="ALWAYS" />
       </HBox>
+      <Button style="-fx-background-color: white; -fx-border-color: FF0000; -fx-border-radius: 5;" text="Annuleren" textFill="RED" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button style="-fx-background-color: white; -fx-border-color: blue; -fx-border-radius: 5; -fx-font-style: blue;" text=".940 bestand toevoegen" textFill="#1977cf" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </GridPane>
