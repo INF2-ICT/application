@@ -16,7 +16,8 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<GridPane hgap="10" prefHeight="401.0" prefWidth="644.0" vgap="10" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quintorapplication.controller.CreateAccountController">
+<?import javafx.scene.text.Font?>
+<GridPane hgap="10" prefHeight="401.0" prefWidth="644.0" vgap="10" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quintorapplication.controllers.CreateAccountController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="360.599951171875" minWidth="10.0" prefWidth="316.599951171875" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="317.400048828125" minWidth="10.0" prefWidth="317.400048828125" />
@@ -54,6 +55,11 @@
             </viewport>
          </ImageView>
          <Region prefWidth="58.0" HBox.hgrow="ALWAYS" />
+         <Label onMousePressed="#switchToDashboard" text="Dashboard">
+            <font>
+               <Font size="13.0" />
+            </font>
+         </Label>
       </HBox>
       <TextField maxWidth="250.0" prefHeight="25.0" prefWidth="322.0" promptText="Naam" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5;" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
       <PasswordField maxWidth="250" promptText="Herhaal wachtwoord" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />

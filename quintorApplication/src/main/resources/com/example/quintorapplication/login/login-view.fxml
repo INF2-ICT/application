@@ -21,7 +21,7 @@
 <!--</image>-->
 <!--</ImageView>-->
 
-<GridPane hgap="10" prefHeight="401.0" prefWidth="247.0" vgap="10" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quintorapplication.controller.LoginController">
+<GridPane hgap="10" prefHeight="401.0" prefWidth="247.0" vgap="10" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quintorapplication.controllers.LoginController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />

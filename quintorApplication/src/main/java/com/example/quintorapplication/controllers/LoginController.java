@@ -1,4 +1,4 @@
-package com.example.quintorapplication.controller;
+package com.example.quintorapplication.controllers;
 
 import com.example.quintorapplication.StarterApplication;
 import javafx.event.ActionEvent;

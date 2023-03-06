@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="705.0" prefWidth="1232.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="705.0" prefWidth="1232.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quintorapplication.controllers.MoneyDrawerController">
    <children>
       <Label layoutX="489.0" layoutY="140.0" text="Kasgeld Declareren">
          <font>
@@ -29,5 +28,10 @@
             <Font size="15.0" />
          </font>
       </Button>
+      <Label layoutX="128.0" layoutY="74.0" onMousePressed="#switchToDashboard" prefHeight="31.0" prefWidth="133.0" text="Dashboard">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

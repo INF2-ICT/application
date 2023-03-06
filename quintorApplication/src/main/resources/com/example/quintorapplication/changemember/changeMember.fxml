@@ -20,7 +20,8 @@
 <!--</image>-->
 <!--</ImageView>-->
 
-<GridPane hgap="10" prefHeight="401.0" prefWidth="247.0" vgap="10" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quintorapplication.controller.AddMemberController">
+<?import javafx.scene.text.Font?>
+<GridPane hgap="10" prefHeight="401.0" prefWidth="247.0" vgap="10" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quintorapplication.controllers.ChangeMemberController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -53,10 +54,10 @@
             <RowConstraints vgrow="ALWAYS" />
          </rowConstraints>
       </GridPane>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Halant;" styleClass="h1" text="Voeg een lid toe" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Halant;" styleClass="h1" text="Wijzig een lid toe" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
       <Label GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-      <TextField maxWidth="250" promptText="Email" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5;" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES" />
-      <Button onAction="#onLoginButtonClick" style="-fx-background-color: white; -fx-border-color: blue; -fx-border-radius: 5; -fx-font-style: blue;" text="Voeg toe" textFill="#1977cf" GridPane.halignment="CENTER" GridPane.rowIndex="6">
+      <TextField maxWidth="250" promptText="jandeman@gmail.com" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5;" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES" />
+      <Button prefHeight="27.0" prefWidth="64.0" style="-fx-background-color: white; -fx-border-color: blue; -fx-border-radius: 5; -fx-font-style: blue;" text="Wijzig" textFill="#1977cf" GridPane.halignment="CENTER" GridPane.rowIndex="6">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -74,9 +75,14 @@
             </viewport>
          </ImageView>
          <Region prefWidth="58.0" HBox.hgrow="ALWAYS" />
+         <Label onMousePressed="#switchToDashboard" text="Dashboard">
+            <font>
+               <Font size="13.0" />
+            </font>
+         </Label>
       </HBox>
-      <TextField maxWidth="250" prefHeight="27.0" prefWidth="29.0" promptText="Naam" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5;" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="2" GridPane.vgrow="SOMETIMES" />
-      <TextField maxWidth="250" prefHeight="27.0" prefWidth="29.0" promptText="Achternaam" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+      <TextField maxWidth="250" prefHeight="27.0" prefWidth="29.0" promptText="Jan" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5;" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="2" GridPane.vgrow="SOMETIMES" />
+      <TextField maxWidth="250" prefHeight="27.0" prefWidth="29.0" promptText="de Man" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
       <TextField maxWidth="250" prefHeight="27.0" prefWidth="29.0" promptText="IBAN" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5;" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="5" GridPane.vgrow="SOMETIMES" />
       <TextField maxWidth="250" prefHeight="27.0" prefWidth="29.0" promptText="Herhaal IBAN" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="5" GridPane.vgrow="SOMETIMES" />
       <Button style="-fx-background-color: white; -fx-border-color: FF0000; -fx-border-radius: 5;" text="Annuleren" textFill="RED" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6">

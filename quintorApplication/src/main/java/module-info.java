@@ -6,6 +6,6 @@ module com.example.quintorapplication {
 
     opens com.example.quintorapplication to javafx.fxml;
     exports com.example.quintorapplication;
-    exports com.example.quintorapplication.controller;
-    opens com.example.quintorapplication.controller to javafx.fxml;
+    exports com.example.quintorapplication.controllers;
+    opens com.example.quintorapplication.controllers to javafx.fxml;
 }

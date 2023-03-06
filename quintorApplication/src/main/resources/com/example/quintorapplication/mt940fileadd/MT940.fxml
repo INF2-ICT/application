@@ -19,7 +19,8 @@
 <!--</image>-->
 <!--</ImageView>-->
 
-<GridPane hgap="10" prefHeight="401.0" prefWidth="247.0" vgap="10" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quintorapplication.controller.Mt940FileAddController">
+<?import javafx.scene.text.Font?>
+<GridPane hgap="10" prefHeight="401.0" prefWidth="247.0" vgap="10" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quintorapplication.controllers.Mt940FileAddController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -70,6 +71,11 @@
             </viewport>
          </ImageView>
          <Region prefWidth="58.0" HBox.hgrow="ALWAYS" />
+         <Label onMousePressed="#switchToDashboard" text="Dashboard">
+            <font>
+               <Font size="13.0" />
+            </font>
+         </Label>
       </HBox>
       <Button style="-fx-background-color: white; -fx-border-color: FF0000; -fx-border-radius: 5;" text="Annuleren" textFill="RED" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
          <cursor>
