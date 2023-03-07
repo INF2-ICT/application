@@ -25,8 +25,8 @@ public class LoginController {
     protected void onLoginButtonClick(ActionEvent event) throws IOException {
         welcomeText.setText("Succesvol ingelogd!");
 //        System.out.println("test");
-        System.out.println(text.getText());
-        System.out.println(text1.getText());
+//        System.out.println(text.getText());
+//        System.out.println(text1.getText());
         switchToDashboard(event);
     }
 

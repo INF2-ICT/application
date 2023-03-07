@@ -19,7 +19,7 @@ public class DashboardController {
         stage.setScene(scene);
         stage.show();
     }
-    public void switchToMt940Inlezen(ActionEvent event) throws IOException {
+    public void switchToMt940FileAdd(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StarterApplication.class.getResource("mt940fileadd/MT940.fxml"));
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         Scene scene = new Scene(fxmlLoader.load());
