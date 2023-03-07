@@ -12,7 +12,7 @@ import java.io.IOException;
 public class DashboardController {
 
     private Stage stage;
-    public void switchToKasgeld(ActionEvent event) throws IOException {
+    public void switchToMoneyDrawer(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StarterApplication.class.getResource("moneydrawer/moneydrawer-view.fxml"));
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         Scene scene = new Scene(fxmlLoader.load());
