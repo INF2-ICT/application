@@ -67,4 +67,12 @@ public class DashboardController {
         stage.show();
     }
 
+    public void switchToBillOverview(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(StarterApplication.class.getResource("billoverview/billoverview-view.fxml"));
+        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+        stage.show();
+    }
+
 }
