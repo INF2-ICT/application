@@ -4,6 +4,10 @@ import com.example.quintorapplication.StarterApplication;
 import com.prowidesoftware.swift.model.SwiftTagListBlock;
 import com.prowidesoftware.swift.model.Tag;
 import com.prowidesoftware.swift.model.field.Field20;
+import com.prowidesoftware.swift.model.field.Field25;
+import com.prowidesoftware.swift.model.field.Field60F;
+import com.prowidesoftware.swift.model.field.Field62F;
+import com.prowidesoftware.swift.model.mt.mt9xx.MT940;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,17 +17,26 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import com.prowidesoftware.swift.model.mt.mt9xx.MT940;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class Mt940FileAddController {
 
     @FXML
     public Button uploadFile;
+
+    private ArrayList<Boolean> checkList;
+
     private Stage stage;
+
+    public Mt940FileAddController(ArrayList<Boolean> checkList) {
+        this.checkList = checkList;
+    }
+
     public void switchToDashboard(MouseEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StarterApplication.class.getResource("dashboard/dashboard-view.fxml"));
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -38,33 +51,19 @@ public class Mt940FileAddController {
         File response = fileChooser.showOpenDialog(null);
 
         if (response != null) {
-            Scanner scanner = new Scanner(response);
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-//                if (!validateMT940(line)) {
-//                    System.out.println(validateMT940(line));
-                System.out.println(validateMT940(line));
-//                    return null;
-//                } else {
-//                    return response;
-//                }
-            }
 
-            scanner.close();
+            String text = Files.readString(Paths.get(response.toURI()));
+
+            System.out.println(validateMT940(text));
+
         }
 
         return null;
     }
 
-    private boolean validateMT940 (String file) throws IOException {
-
-//        System.out.println("hier");
-//
-//        System.out.println(file);
+    private boolean validateMT940 (String file) {
 
         MT940 mt = new MT940(file);
-
-        System.out.println(mt);
 
         if (mt.getSwiftMessage().getBlock4() != null) {
             Tag start = mt.getSwiftMessage().getBlock4().getTagByNumber(20);
@@ -77,13 +76,32 @@ public class Mt940FileAddController {
 
                 if (t.getName().equals("20")) {
                     Field20 tx = (Field20) t.asField();
-
                     System.out.println(tx);
+                    checkList.add(true);
                 }
+
+                if (t.getName().equals("25")) {
+                    Field25 tx = (Field25) t.asField();
+                    System.out.println(tx);
+                    checkList.add(true);
+                }
+
+                if (t.getName().equals("60F")) {
+                    Field60F tx = (Field60F) t.asField();
+                    System.out.println(tx);
+                    checkList.add(true);
+                }
+
+                if (t.getName().equals("62F")) {
+                    Field62F tx = (Field62F) t.asField();
+                    System.out.println(tx);
+                    checkList.add(true);
+                }
+
             }
         }
 
-        return false;
+        return true;
     }
 
 }
