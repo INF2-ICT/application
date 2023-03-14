@@ -60,6 +60,8 @@ public class Mt940FileAddController {
 
         boolean fileChecked = false;
 
+        emptyCheckList();
+
         if (response != null) {
             Scanner sc = new Scanner(response);
 
@@ -72,6 +74,7 @@ public class Mt940FileAddController {
             if (fileChecked) {
                 String text = Files.readString(Paths.get(response.toURI()));
                 validateMT940(text);
+                System.out.println(validateMT940(text));
             }
         }
 
@@ -103,7 +106,7 @@ public class Mt940FileAddController {
             }
         }
 
-        return true;
+        return false;
     }
     private void CheckField20(Tag t) {
         if (t.getName().equals("20")) {
