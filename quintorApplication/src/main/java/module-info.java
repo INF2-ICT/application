@@ -3,6 +3,7 @@ module com.example.quintorapplication {
     requires javafx.fxml;
 
     requires org.kordamp.bootstrapfx.core;
+    requires com.prowidesoftware.core;
 
     opens com.example.quintorapplication to javafx.fxml;
     exports com.example.quintorapplication;
