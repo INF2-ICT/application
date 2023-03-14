@@ -60,9 +60,7 @@ public class Mt940FileAddController {
 
         boolean fileChecked = false;
 
-
         if (response != null) {
-
             Scanner sc = new Scanner(response);
 
             while (sc.hasNextLine()) {
@@ -73,7 +71,7 @@ public class Mt940FileAddController {
 
             if (fileChecked) {
                 String text = Files.readString(Paths.get(response.toURI()));
-                System.out.println(validateMT940(text));
+                validateMT940(text);
             }
         }
 
@@ -83,10 +81,8 @@ public class Mt940FileAddController {
     private boolean validateMT940 (String file) {
 
         MT940 mt = new MT940(file);
-        System.out.println("test");
 
         if (mt.getSwiftMessage().getBlock4() != null) {
-            System.out.println("got through?");
             Tag start = mt.getSwiftMessage().getBlock4().getTagByNumber(20);
             Tag end = mt.getSwiftMessage().getBlock4().getTagByNumber(62);
 
@@ -101,35 +97,39 @@ public class Mt940FileAddController {
             }
         }
 
-        System.out.println(getCheckList());
+        if (!getCheckList().isEmpty()) {
+            if (!getCheckList().contains(false)) {
+                return true;
+            }
+        }
 
         return true;
     }
     private void CheckField20(Tag t) {
         if (t.getName().equals("20")) {
             Field20 tx = (Field20) t.asField();
-            System.out.println(tx);
-            addCheckList(true);
+            if (tx.getComponent1().length() == 16) {
+                addCheckList(true);
+            } else {
+                addCheckList(false);
+            }
         }
     }
     private void CheckField25(Tag t) {
         if (t.getName().equals("25")) {
             Field25 tx = (Field25) t.asField();
-            System.out.println(tx);
             addCheckList(true);
         }
     }
     private void CheckField60F(Tag t) {
         if (t.getName().equals("60F")) {
             Field60F tx = (Field60F) t.asField();
-            System.out.println(tx);
             addCheckList(true);
         }
     }
     private void CheckField62F(Tag t) {
         if (t.getName().equals("62F")) {
             Field62F tx = (Field62F) t.asField();
-            System.out.println(tx);
             addCheckList(true);
         }
     }
