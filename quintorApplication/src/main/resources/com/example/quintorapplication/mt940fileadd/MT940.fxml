@@ -21,7 +21,6 @@
 <!--</image>-->
 <!--</ImageView>-->
 
-
 <GridPane hgap="10" prefHeight="800.0" prefWidth="1000.0" vgap="10" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quintorapplication.controllers.Mt940FileAddController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -59,7 +58,7 @@
             <Font size="30.0" />
          </font>
       </Text>
-      <Button fx:id="uploadFile" onAction="#uploadFile" style="-fx-background-color: white; -fx-border-color: blue; -fx-border-radius: 5; -fx-font-style: blue;" text="Voeg toe" textFill="#1977cf" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+      <Button style="-fx-background-color: white; -fx-border-color: blue; -fx-border-radius: 5; -fx-font-style: blue;" text="Voeg toe" textFill="#1977cf" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
