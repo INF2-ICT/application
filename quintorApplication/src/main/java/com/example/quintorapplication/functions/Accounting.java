@@ -11,9 +11,7 @@ public class Accounting {
     private LocalDate billingDate;
     private Balance balance;
     private Double moneyAmount;
-
     private String singleAccountData;
-
 
     public Accounting(String accountNumberId, LocalDate billingDate, Balance balance, Double moneyAmount, String singleAccountData) {
         this.accountNumberId = accountNumberId;

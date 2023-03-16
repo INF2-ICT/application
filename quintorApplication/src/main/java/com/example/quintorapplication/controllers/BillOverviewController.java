@@ -10,7 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,7 +19,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 public class BillOverviewController implements Initializable {
@@ -39,6 +37,7 @@ public class BillOverviewController implements Initializable {
     private TableColumn<Accounting, String> singleAccountData;
 
     ObservableList<Accounting> list = FXCollections.observableArrayList(
+            new Accounting("NL69INGB0123456789EUR", LocalDate.of(2023, 7, 7), Balance.CREDIT, 35.00, "bekijk"),
             new Accounting("NL69INGB0123456789EUR", LocalDate.of(2023, 7, 7), Balance.CREDIT, 35.00, "bekijk")
     );
 

@@ -69,11 +69,11 @@
         </HBox>
         <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
             <columns>
-                <TableColumn prefWidth="75.0" text="Rekening nummer" fx:id="accountNumberId" />
-                <TableColumn prefWidth="75.0" text="Datum" fx:id="billingDate" />
-                <TableColumn prefWidth="75.0" text="Credit of Debit" fx:id="balance" />
-                <TableColumn prefWidth="75.0" text="Bedrag" fx:id="moneyAmount" />
-                <TableColumn prefWidth="75.0" text="Bekijk" fx:id="singleAccountData" />
+                <TableColumn prefWidth="200.0" text="Rekening nummer" fx:id="accountNumberId" />
+                <TableColumn prefWidth="100.0" text="Datum" fx:id="billingDate" />
+                <TableColumn prefWidth="100.0" text="Credit of Debit" fx:id="balance" />
+                <TableColumn prefWidth="100.0" text="Bedrag" fx:id="moneyAmount" />
+                <TableColumn prefWidth="100.0" text="Bekijk" fx:id="singleAccountData" />
             </columns>
         </TableView>
     </children>
