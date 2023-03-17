@@ -1,6 +1,7 @@
 package com.example.quintorapplication.controllers;
 
 import com.example.quintorapplication.StarterApplication;
+import com.example.quintorapplication.util.DatabaseUtil;
 import com.prowidesoftware.swift.model.SwiftTagListBlock;
 import com.prowidesoftware.swift.model.Tag;
 import com.prowidesoftware.swift.model.field.Field20;
@@ -22,9 +23,12 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Mt940FileAddController {
@@ -70,7 +74,7 @@ public class Mt940FileAddController {
      * Function that uploads the uploaded file to databases and runs file through validator
      * @throws IOException
      */
-    public void upload() throws IOException {
+    public void upload() throws Exception {
         File response = this.file;
 
         boolean fileChecked = false;
@@ -91,10 +95,17 @@ public class Mt940FileAddController {
 
                 if (validateMT940(text)) {
                     //Send file to Parser based on set mode XML/JSON
+                    DatabaseUtil obj = new DatabaseUtil();
+                    System.out.println(obj.uploadFileToParser(this.file, "JSON")); //Needs mode XML/JSON aswell
+
+                    //Validate this with SCHEMAS
+                    //If mode is json/xml
                     // . . .
 
                     //Send received XML/JSON to API
                     // . . .
+
+                    //Send file to mariaDB? or should this be in parses
 
                     //Give successful feedback message
                     this.feedbackText.setText("Bestand succesvol toegevoegd!");
