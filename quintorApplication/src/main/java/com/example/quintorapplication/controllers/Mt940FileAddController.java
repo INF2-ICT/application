@@ -2,6 +2,7 @@ package com.example.quintorapplication.controllers;
 
 import com.example.quintorapplication.StarterApplication;
 import com.example.quintorapplication.util.DatabaseUtil;
+
 import com.prowidesoftware.swift.model.SwiftTagListBlock;
 import com.prowidesoftware.swift.model.Tag;
 import com.prowidesoftware.swift.model.field.Field20;
@@ -9,6 +10,7 @@ import com.prowidesoftware.swift.model.field.Field25;
 import com.prowidesoftware.swift.model.field.Field60F;
 import com.prowidesoftware.swift.model.field.Field62F;
 import com.prowidesoftware.swift.model.mt.mt9xx.MT940;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +23,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.nio.file.Files;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+
 
 public class Mt940FileAddController {
     private File file;
@@ -76,34 +78,34 @@ public class Mt940FileAddController {
      */
     public void upload() throws Exception {
         File response = this.file;
-
         boolean fileChecked = false;
-
         emptyCheckList();
 
         if (response != null) {
+            //Scanner to read lines from file
             Scanner sc = new Scanner(response);
-
             while (sc.hasNextLine()) {
                 if (sc.nextLine().length() > 0) {
                     fileChecked = true;
                 }
             }
 
+            //If there is content and read out all lines
             if (fileChecked) {
                 String text = Files.readString(Paths.get(response.toURI()));
 
+                //Validate MT940
                 if (validateMT940(text)) {
+                    String mode = "JSON"; //Temp for now, can be XML/JSON must be gotten from application
+                    DatabaseUtil DB = new DatabaseUtil();
+
                     //Send file to Parser based on set mode XML/JSON
-                    DatabaseUtil obj = new DatabaseUtil();
-                    System.out.println(obj.uploadFileToParser(this.file, "JSON")); //Needs mode XML/JSON aswell
+                    String parserOutput = DB.uploadMT940FileToParser(this.file, mode);
+                    System.out.println(parserOutput);
 
-                    //Validate this with SCHEMAS
-                    //If mode is json/xml
-                    // . . .
-
-                    //Send received XML/JSON to API
-                    // . . .
+                    //Send received XML/JSON to API to validate it and get it in MariaDB
+                    String ApiOutput = DB.postApiRequest("post-json", parserOutput, "json");
+                    System.out.println(ApiOutput);
 
                     //Send file to mariaDB? or should this be in parses
 
