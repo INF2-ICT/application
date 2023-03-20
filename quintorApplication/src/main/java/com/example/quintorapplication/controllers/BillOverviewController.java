@@ -16,7 +16,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -45,6 +47,10 @@ public class BillOverviewController implements Initializable {
 
     private Stage stage;
 
+    public BillOverviewController() throws IOException {
+            getAllTransactions();
+    }
+
     public void switchToDashboard(MouseEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StarterApplication.class.getResource("dashboard/dashboard-view.fxml"));
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -62,17 +68,42 @@ public class BillOverviewController implements Initializable {
         singleAccountData.setCellValueFactory(new PropertyValueFactory<Accounting, String>("singleAccountData"));
 
         tableView.setItems(list);
+
     }
 
     public void getAllTransactions() throws IOException {
-        URL url = new URL("http://localhost:8080/quintor/get-all-transactions");
+        URL url = new URL("http://localhost:8080/get-all-transactions");
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
+        con.setRequestProperty ("apikey", "test123");
         con.setRequestProperty("Content-Type", "application/json");
-
         con.connect();
-        con.getOutputStream();
+
+        if (con != null) {
+
+            System.out.println("hallo");
+            int responseCode = con.getResponseCode();
+
+            System.out.println("responsecode is " + responseCode);
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                System.out.println("hallo");
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                StringBuffer response = new StringBuffer();
+
+                String inputLine;
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+
+                System.out.println(response);
+
+//                return response.toString();
+            }
+        }
 
         con.disconnect();
     }
