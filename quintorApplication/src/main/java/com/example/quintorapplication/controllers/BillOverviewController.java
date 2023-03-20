@@ -17,6 +17,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -60,5 +62,18 @@ public class BillOverviewController implements Initializable {
         singleAccountData.setCellValueFactory(new PropertyValueFactory<Accounting, String>("singleAccountData"));
 
         tableView.setItems(list);
+    }
+
+    public void getAllTransactions() throws IOException {
+        URL url = new URL("http://localhost:8080/quintor/get-all-transactions");
+
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("Content-Type", "application/json");
+
+        con.connect();
+        con.getOutputStream();
+
+        con.disconnect();
     }
 }
