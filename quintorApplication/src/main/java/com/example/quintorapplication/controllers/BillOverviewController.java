@@ -3,6 +3,8 @@ package com.example.quintorapplication.controllers;
 import com.example.quintorapplication.StarterApplication;
 import com.example.quintorapplication.enums.Balance;
 import com.example.quintorapplication.functions.Accounting;
+import com.prowidesoftware.JsonSerializable;
+import org.json.JSONObject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,14 +18,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class BillOverviewController implements Initializable {
 
@@ -39,21 +40,21 @@ public class BillOverviewController implements Initializable {
     private TableColumn<Accounting, Double> moneyAmount;
     @FXML
     private TableColumn<Accounting, String> singleAccountData;
-
-    ObservableList<Accounting> list = FXCollections.observableArrayList(
-            new Accounting("NL69INGB0123456789EUR", LocalDate.of(2023, 7, 7), Balance.CREDIT, 35.00, "bekijk"),
-            new Accounting("NL69INGB0123456789EUR", LocalDate.of(2023, 7, 7), Balance.CREDIT, 35.00, "bekijk")
-    );
+//
+//    ObservableList<Accounting> list = FXCollections.observableArrayList(
+//            new Accounting("NL69INGB0123456789EUR", LocalDate.of(2023, 7, 7), Balance.CREDIT, 35.00, "bekijk"),
+//            new Accounting("NL69INGB0123456789EUR", LocalDate.of(2023, 7, 7), Balance.CREDIT, 35.00, "bekijk")
+//    );
 
     private Stage stage;
 
-    public BillOverviewController() throws IOException {
-            getAllTransactions();
-    }
+//    public BillOverviewController() throws IOException {
+//        getAllTransactions();
+//    }
 
     public void switchToDashboard(MouseEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StarterApplication.class.getResource("dashboard/dashboard-view.fxml"));
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.show();
@@ -67,44 +68,57 @@ public class BillOverviewController implements Initializable {
         moneyAmount.setCellValueFactory(new PropertyValueFactory<Accounting, Double>("moneyAmount"));
         singleAccountData.setCellValueFactory(new PropertyValueFactory<Accounting, String>("singleAccountData"));
 
-        tableView.setItems(list);
+        try {
+            tableView.setItems(getAllTransactions());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
-    public void getAllTransactions() throws IOException {
+    public ObservableList<Accounting> getAllTransactions() throws IOException {
         URL url = new URL("http://localhost:8080/get-all-transactions");
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
-        con.setRequestProperty ("apikey", "test123");
+        con.setRequestProperty("apikey", "test123");
         con.setRequestProperty("Content-Type", "application/json");
         con.connect();
 
         if (con != null) {
 
-            System.out.println("hallo");
             int responseCode = con.getResponseCode();
 
-            System.out.println("responsecode is " + responseCode);
-
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                System.out.println("hallo");
+
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-
-                StringBuffer response = new StringBuffer();
-
+                List<JSONObject> response = new ArrayList<>();
                 String inputLine;
+
                 while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
+                    JSONObject obj = new JSONObject(inputLine.substring(1, inputLine.length()-1));
+                    response.add(obj);
                 }
+
+                ObservableList<Accounting> list = FXCollections.observableArrayList(
+                        new Accounting(
+                                (String) response.get(0).get("transaction_reference"),
+                                (String) response.get(0).get("value_date"),
+                                (String) response.get(0).get("transactionType"),
+                                (BigDecimal) response.get(0).get("amount_in_euro"),
+                                "bekijk")
+                );
+
                 in.close();
 
-                System.out.println(response);
-
-//                return response.toString();
+                return list;
             }
         }
 
         con.disconnect();
+
+
+
+        return null;
     }
 }

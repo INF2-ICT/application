@@ -4,6 +4,7 @@ module com.example.quintorapplication {
 
     requires org.kordamp.bootstrapfx.core;
     requires com.prowidesoftware.core;
+    requires org.json;
 
     opens com.example.quintorapplication to javafx.fxml;
     exports com.example.quintorapplication;
