@@ -1,16 +1,14 @@
 package com.example.quintorapplication.functions;
 
-import java.math.BigDecimal;
-
 public class Accounting {
 
     private String accountNumberId;
     private String billingDate;
     private String balance;
-    private BigDecimal moneyAmount;
+    private String moneyAmount;
     private String singleAccountData;
 
-    public Accounting(String accountNumberId, String billingDate, String balance, BigDecimal moneyAmount, String singleAccountData) {
+    public Accounting(String accountNumberId, String billingDate, String balance, String moneyAmount, String singleAccountData) {
         this.accountNumberId = accountNumberId;
         this.billingDate = billingDate;
         this.balance = balance;
@@ -30,7 +28,7 @@ public class Accounting {
         return this.balance;
     }
 
-    public BigDecimal getMoneyAmount() {
+    public String getMoneyAmount() {
         return this.moneyAmount;
     }
 
