@@ -11,12 +11,15 @@ import com.prowidesoftware.swift.model.field.Field60F;
 import com.prowidesoftware.swift.model.field.Field62F;
 import com.prowidesoftware.swift.model.mt.mt9xx.MT940;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -24,12 +27,10 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 
@@ -37,10 +38,22 @@ public class Mt940FileAddController {
     private File file;
     private Stage stage;
     private ArrayList<Boolean> checkList;
+    String mode; //Temp for now, can be XML/JSON must be gotten from application
+    String parserEndpoint;
+    String apiEndpoint;
     @FXML
     private Text feedbackText;
     @FXML
     private Button fileAddButton;
+    @FXML
+    private ChoiceBox<String> modeChoiceBox;
+    @FXML
+    private void initialize() {
+        ObservableList<String> modeList = FXCollections.observableArrayList("JSON", "XML");
+        modeChoiceBox.setItems(modeList);
+        modeChoiceBox.setValue("JSON");
+        modeChoiceBox.setOnAction(this::setMode);
+    }
 
     /**
      * Constructor
@@ -48,6 +61,9 @@ public class Mt940FileAddController {
     public Mt940FileAddController() {
         this.file = null;
         this.checkList = new ArrayList<>();
+        this.mode = "JSON";
+        this.parserEndpoint = "MT940toJSON";
+        this.apiEndpoint = "post-json";
     }
 
     /**
@@ -92,22 +108,25 @@ public class Mt940FileAddController {
 
             //If there is content and read out all lines
             if (fileChecked) {
-                String text = Files.readString(Paths.get(response.toURI()));
+                String mt940Text = Files.readString(Paths.get(response.toURI()));
 
                 //Validate MT940
-                if (validateMT940(text)) {
-                    String mode = "JSON"; //Temp for now, can be XML/JSON must be gotten from application
+                if (validateMT940(mt940Text)) {
+                    //Create new database util object
                     DatabaseUtil DB = new DatabaseUtil();
 
                     //Send file to Parser based on set mode XML/JSON
-                    String parserOutput = DB.uploadMT940FileToParser(this.file, mode);
-                    System.out.println(parserOutput);
+                    String parserOutput = DB.uploadMT940FileToParser(this.file, this.parserEndpoint);
 
-                    //Send received XML/JSON to API to validate it and get it in MariaDB
-                    String ApiOutput = DB.postApiRequest("post-json", parserOutput, "json");
-                    System.out.println(ApiOutput);
+                    //Send received XML/JSON to API to validate it
+                    HashMap<String, String> headerBody = new HashMap<>(); //Header - Body
+                    headerBody.put(this.mode.toLowerCase(), parserOutput); //For example "json", "{test: "test"}"
+                    String ApiOutput = DB.postApiRequest(this.apiEndpoint, headerBody);
 
-                    //Send file to mariaDB? or should this be in parses
+                    //Send file to mariaDB
+                    if (ApiOutput == "Success") {
+                        // . . .
+                    }
 
                     //Give successful feedback message
                     this.feedbackText.setText("Bestand succesvol toegevoegd!");
@@ -226,6 +245,25 @@ public class Mt940FileAddController {
     }
 
     /**
+     * Function to set mode of application. JSON or XML. Standard = JSON
+     * @param actionEvent
+     */
+    private void setMode(ActionEvent actionEvent) {
+        //Set variables based on application mode
+
+        switch (this.mode) {
+            case "JSON" -> {
+                this.parserEndpoint = "MT940toJSON";
+                this.apiEndpoint = "post-json";
+            }
+            case "XML" -> {
+                this.parserEndpoint = "MT940toXML";
+                this.apiEndpoint = "post-xml";
+            }
+        }
+    }
+
+    /**
      * Function to switch scene to dashboard (navbar)
      * @param event
      * @throws IOException
@@ -237,5 +275,4 @@ public class Mt940FileAddController {
         stage.setScene(scene);
         stage.show();
     }
-
 }
