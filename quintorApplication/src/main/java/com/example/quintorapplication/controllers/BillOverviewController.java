@@ -40,17 +40,8 @@ public class BillOverviewController implements Initializable {
     private TableColumn<Accounting, Double> moneyAmount;
     @FXML
     private TableColumn<Accounting, String> singleAccountData;
-//
-//    ObservableList<Accounting> list = FXCollections.observableArrayList(
-//            new Accounting("NL69INGB0123456789EUR", LocalDate.of(2023, 7, 7), Balance.CREDIT, 35.00, "bekijk"),
-//            new Accounting("NL69INGB0123456789EUR", LocalDate.of(2023, 7, 7), Balance.CREDIT, 35.00, "bekijk")
-//    );
 
     private Stage stage;
-
-//    public BillOverviewController() throws IOException {
-//        getAllTransactions();
-//    }
 
     public void switchToDashboard(MouseEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StarterApplication.class.getResource("dashboard/dashboard-view.fxml"));
@@ -77,7 +68,7 @@ public class BillOverviewController implements Initializable {
     }
 
     public ObservableList<Accounting> getAllTransactions() throws IOException {
-        URL url = new URL("http://localhost:8080/get-all-transactions");
+        URL url = new URL("http://localhost:8081/get-all-transactions");
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
