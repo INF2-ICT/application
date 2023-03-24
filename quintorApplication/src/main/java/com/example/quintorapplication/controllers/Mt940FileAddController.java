@@ -250,6 +250,7 @@ public class Mt940FileAddController {
      */
     private void setMode(ActionEvent actionEvent) {
         //Set variables based on application mode
+        this.mode = this.modeChoiceBox.getSelectionModel().getSelectedItem();
 
         switch (this.mode) {
             case "JSON" -> {
