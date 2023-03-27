@@ -31,6 +31,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Scanner;
 
 
@@ -38,7 +39,7 @@ public class Mt940FileAddController {
     private File file;
     private Stage stage;
     private ArrayList<Boolean> checkList;
-    String mode; //Temp for now, can be XML/JSON must be gotten from application
+    String mode;
     String parserEndpoint;
     String apiEndpoint;
     @FXML
@@ -118,20 +119,18 @@ public class Mt940FileAddController {
                     //Send file to Parser based on set mode XML/JSON
                     String parserOutput = DB.uploadMT940FileToParser(this.file, this.parserEndpoint);
 
-                    //Send received XML/JSON to API to validate it
+                    //Send received XML/JSON to API to validate it in schemas and mariaDB
                     HashMap<String, String> headerBody = new HashMap<>(); //Header - Body
                     headerBody.put(this.mode.toLowerCase(), parserOutput); //For example "json", "{test: "test"}"
                     String ApiOutput = DB.postApiRequest(this.apiEndpoint, headerBody);
 
-                    //Send file to mariaDB
-                    if (ApiOutput == "Success") {
-                        // . . .
+                    //Receive message from API and output it to the user
+                    if (Objects.equals(ApiOutput, "Success")) {
+                        this.feedbackText.setText("Bestand succesvol toegevoegd!");
+                    } else {
+                        this.feedbackText.setText("Er is iets fout gegaan bij het valideren van het bestand!");
                     }
-
-                    //Give successful feedback message
-                    this.feedbackText.setText("Bestand succesvol toegevoegd!");
                 }
-
             } else {
                 this.feedbackText.setText("Bestand is geen valide MT940 bestand!");
             }
@@ -149,7 +148,7 @@ public class Mt940FileAddController {
      * @return
      */
     private boolean validateMT940 (String file) {
-        MT940 mt = new MT940(file); //Needs extra validation to check if filetype is ok with MT940(json for example is not, and it gives an error)
+        MT940 mt = new MT940(file);
 
         if (mt.getSwiftMessage().getBlock4() != null) {
             Tag start = mt.getSwiftMessage().getBlock4().getTagByNumber(20);
