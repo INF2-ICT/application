@@ -28,7 +28,7 @@ public class ReadTransactionJsonXml {
 
 
     public ObservableList<Accounting> getAllTransactionJson() throws IOException {
-        URL url = new URL("http://localhost:8081/get-all-transactions");
+        URL url = new URL("http://localhost:8081/get-all-transactions-json");
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
@@ -43,7 +43,6 @@ public class ReadTransactionJsonXml {
             if (responseCode == HttpURLConnection.HTTP_OK) {
 
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                List<String> response = new ArrayList<>();
                 String inputLine;
 
                 ObservableList<Accounting> list = FXCollections.observableArrayList();
@@ -72,7 +71,7 @@ public class ReadTransactionJsonXml {
     }
 
     public List<String> getAllTransactionXml() throws IOException, ParserConfigurationException, SAXException {
-        URL url = new URL("http://localhost:8081/get-all-transactions");
+        URL url = new URL("http://localhost:8081/get-all-transactions-xml");
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
