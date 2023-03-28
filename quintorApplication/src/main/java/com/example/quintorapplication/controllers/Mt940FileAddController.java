@@ -11,12 +11,15 @@ import com.prowidesoftware.swift.model.field.Field60F;
 import com.prowidesoftware.swift.model.field.Field62F;
 import com.prowidesoftware.swift.model.mt.mt9xx.MT940;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -24,12 +27,11 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 
 
@@ -37,10 +39,22 @@ public class Mt940FileAddController {
     private File file;
     private Stage stage;
     private ArrayList<Boolean> checkList;
+    String mode;
+    String parserEndpoint;
+    String apiEndpoint;
     @FXML
     private Text feedbackText;
     @FXML
     private Button fileAddButton;
+    @FXML
+    private ChoiceBox<String> modeChoiceBox;
+    @FXML
+    private void initialize() {
+        ObservableList<String> modeList = FXCollections.observableArrayList("JSON", "XML");
+        modeChoiceBox.setItems(modeList);
+        modeChoiceBox.setValue("JSON");
+        modeChoiceBox.setOnAction(this::setMode);
+    }
 
     /**
      * Constructor
@@ -48,6 +62,9 @@ public class Mt940FileAddController {
     public Mt940FileAddController() {
         this.file = null;
         this.checkList = new ArrayList<>();
+        this.mode = "JSON";
+        this.parserEndpoint = "MT940toJSON";
+        this.apiEndpoint = "post-json";
     }
 
     /**
@@ -92,27 +109,28 @@ public class Mt940FileAddController {
 
             //If there is content and read out all lines
             if (fileChecked) {
-                String text = Files.readString(Paths.get(response.toURI()));
+                String mt940Text = Files.readString(Paths.get(response.toURI()));
 
                 //Validate MT940
-                if (validateMT940(text)) {
-                    String mode = "JSON"; //Temp for now, can be XML/JSON must be gotten from application
+                if (validateMT940(mt940Text)) {
+                    //Create new database util object
                     DatabaseUtil DB = new DatabaseUtil();
 
                     //Send file to Parser based on set mode XML/JSON
-                    String parserOutput = DB.uploadMT940FileToParser(this.file, mode);
-                    System.out.println(parserOutput);
+                    String parserOutput = DB.uploadMT940FileToParser(this.file, this.parserEndpoint);
 
-                    //Send received XML/JSON to API to validate it and get it in MariaDB
-                    String ApiOutput = DB.postApiRequest("post-json", parserOutput, "json");
-                    System.out.println(ApiOutput);
+                    //Send received XML/JSON to API to validate it in schemas and mariaDB
+                    HashMap<String, String> headerBody = new HashMap<>(); //Header - Body
+                    headerBody.put(this.mode.toLowerCase(), parserOutput); //For example "json", "{test: "test"}"
+                    String ApiOutput = DB.postApiRequest(this.apiEndpoint, headerBody);
 
-                    //Send file to mariaDB? or should this be in parses
-
-                    //Give successful feedback message
-                    this.feedbackText.setText("Bestand succesvol toegevoegd!");
+                    //Receive message from API and output it to the user
+                    if (Objects.equals(ApiOutput, "Success")) {
+                        this.feedbackText.setText("Bestand succesvol toegevoegd!");
+                    } else {
+                        this.feedbackText.setText("Er is iets fout gegaan bij het valideren van het bestand!");
+                    }
                 }
-
             } else {
                 this.feedbackText.setText("Bestand is geen valide MT940 bestand!");
             }
@@ -130,7 +148,7 @@ public class Mt940FileAddController {
      * @return
      */
     private boolean validateMT940 (String file) {
-        MT940 mt = new MT940(file); //Needs extra validation to check if filetype is ok with MT940(json for example is not, and it gives an error)
+        MT940 mt = new MT940(file);
 
         if (mt.getSwiftMessage().getBlock4() != null) {
             Tag start = mt.getSwiftMessage().getBlock4().getTagByNumber(20);
@@ -226,6 +244,26 @@ public class Mt940FileAddController {
     }
 
     /**
+     * Function to set mode of application. JSON or XML. Standard = JSON
+     * @param actionEvent
+     */
+    private void setMode(ActionEvent actionEvent) {
+        //Set variables based on application mode
+        this.mode = this.modeChoiceBox.getSelectionModel().getSelectedItem();
+
+        switch (this.mode) {
+            case "JSON" -> {
+                this.parserEndpoint = "MT940toJSON";
+                this.apiEndpoint = "post-json";
+            }
+            case "XML" -> {
+                this.parserEndpoint = "MT940toXML";
+                this.apiEndpoint = "post-xml";
+            }
+        }
+    }
+
+    /**
      * Function to switch scene to dashboard (navbar)
      * @param event
      * @throws IOException
@@ -237,5 +275,4 @@ public class Mt940FileAddController {
         stage.setScene(scene);
         stage.show();
     }
-
 }

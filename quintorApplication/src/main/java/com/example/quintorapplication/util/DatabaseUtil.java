@@ -3,55 +3,53 @@ package com.example.quintorapplication.util;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DatabaseUtil {
-    private String url;
-
-    public DatabaseUtil() {
-        this.url = "";
-    }
 
     /**
-     * Send post request to API
-     * Could be made dynamic by adding url/object with headers
-     * Also needs header for auth WIP
-     * @param endpoint
-     * @param body
-     * @return
-     * @throws Exception
+     * Send STRING post request to API
+     * @param endpoint endpoint of API
+     * @param headerBody Map with Header - Body Strings. For example "json", "{test: "test"}"
+     * @return String output of API
+     * @throws Exception if httpURLConnection failed
      */
-    public String postApiRequest(String endpoint, String body, String header) throws Exception {
-        this.setUrl("http://localhost:8081/" + endpoint);
-        HttpURLConnection connection = (HttpURLConnection) new URL(getUrl()).openConnection();
+    public String postApiRequest(String endpoint, HashMap<String, String> headerBody) throws Exception {
+        String ApiUrl = "http://localhost:8081/" + endpoint;
 
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Accept", "application/json");
-        connection.setDoOutput(true);
+        //Set connection
+        HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(ApiUrl).openConnection();
+        httpURLConnection.setRequestMethod("POST");
+        httpURLConnection.setRequestProperty("Accept", "application/json");
+        httpURLConnection.setDoOutput(true);
 
-        OutputStream os = connection.getOutputStream();
-        String params = header + "=" + body;
-        os.write(params.getBytes()); //StandardCharsets.UTF_8
+        OutputStream os = httpURLConnection.getOutputStream();
 
+        //Loop over HashMap with param & body
+        for(Map.Entry<String, String> entry : headerBody.entrySet())
+        {
+            String param = entry.getKey();
+            String body = entry.getValue();
 
-        return this.getResponse(connection);
+            String params = param + "=" + body;
+            os.write(params.getBytes()); //StandardCharsets.UTF_8
+        }
+
+        return this.getResponse(httpURLConnection);
     }
 
     /**
      * Upload MT940 file to parser with mode json/xml
-     * @param file
-     * @param mode
-     * @return
-     * @throws IOException
+     * @param file Uploaded MT940 file
+     * @param endpoint xml / json endpoint
+     * @return MT940 as string in XML/JSON format
+     * @throws IOException When connection error
      */
-    public String uploadMT940FileToParser(File file, String mode) throws IOException {
-        if (mode.equals("JSON")) {
-            this.setUrl("http://localhost:8080/MT940toJSON"); //http://localhost:8080/ must be link&port of parser
-        } else {
-            this.setUrl("http://localhost:8080/MT940toXML");
-        }
+    public String uploadMT940FileToParser(File file, String endpoint) throws IOException {
+        String ApiUrl = "http://localhost:8080/" + endpoint;
 
-        URL parser = new URL(getUrl());
+        URL parser = new URL(ApiUrl);
 
         HttpURLConnection httpURLConnection = (HttpURLConnection) parser.openConnection();
         httpURLConnection.setRequestMethod("POST");
@@ -70,8 +68,8 @@ public class DatabaseUtil {
 
     /**
      * Gets response from httpURLConnection
-     * @param httpURLConnection
-     * @return
+     * @param httpURLConnection The connection made with http
+     * @return String of returned message
      * @throws IOException
      */
     private String getResponse(HttpURLConnection httpURLConnection) throws IOException {
@@ -94,16 +92,5 @@ public class DatabaseUtil {
         }
 
         return null;
-    }
-
-    /**
-     * Getters & Setters
-     */
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 }
