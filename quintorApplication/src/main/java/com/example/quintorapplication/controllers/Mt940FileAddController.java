@@ -39,13 +39,11 @@ public class Mt940FileAddController {
     private File file;
     private Stage stage;
     private ArrayList<Boolean> checkList;
-    String mode;
-    String parserEndpoint;
-    String apiEndpoint;
     @FXML
     private Text feedbackText;
     @FXML
     private Button fileAddButton;
+    private ModeController modeController;
     @FXML
     private ChoiceBox<String> modeChoiceBox;
     @FXML
@@ -56,15 +54,17 @@ public class Mt940FileAddController {
         modeChoiceBox.setOnAction(this::setMode);
     }
 
+    private void setMode(ActionEvent actionEvent) {
+        this.modeController.setMode(this.modeChoiceBox.getSelectionModel().getSelectedItem());
+    }
+
     /**
      * Constructor
      */
     public Mt940FileAddController() {
         this.file = null;
         this.checkList = new ArrayList<>();
-        this.mode = "JSON";
-        this.parserEndpoint = "MT940toJSON";
-        this.apiEndpoint = "post-json";
+        this.modeController = new ModeController();
     }
 
     /**
@@ -117,12 +117,12 @@ public class Mt940FileAddController {
                     DatabaseUtil DB = new DatabaseUtil();
 
                     //Send file to Parser based on set mode XML/JSON
-                    String parserOutput = DB.uploadMT940FileToParser(this.file, this.parserEndpoint);
+                    String parserOutput = DB.uploadMT940FileToParser(this.file, this.modeController.getParserEndpoint());
 
                     //Send received XML/JSON to API to validate it in schemas and mariaDB
                     HashMap<String, String> headerBody = new HashMap<>(); //Header - Body
-                    headerBody.put(this.mode.toLowerCase(), parserOutput); //For example "json", "{test: "test"}"
-                    String ApiOutput = DB.postApiRequest(this.apiEndpoint, headerBody);
+                    headerBody.put(this.modeController.getMode().toLowerCase(), parserOutput); //For example "json", "{test: "test"}"
+                    String ApiOutput = DB.postApiRequest(this.modeController.getMT940Endpoint(), headerBody);
 
                     //Receive message from API and output it to the user
                     if (Objects.equals(ApiOutput, "Success")) {
@@ -240,26 +240,6 @@ public class Mt940FileAddController {
         if (t.getName().equals("62F")) {
             Field62F tx = (Field62F) t.asField();
             addCheckList(true);
-        }
-    }
-
-    /**
-     * Function to set mode of application. JSON or XML. Standard = JSON
-     * @param actionEvent
-     */
-    private void setMode(ActionEvent actionEvent) {
-        //Set variables based on application mode
-        this.mode = this.modeChoiceBox.getSelectionModel().getSelectedItem();
-
-        switch (this.mode) {
-            case "JSON" -> {
-                this.parserEndpoint = "MT940toJSON";
-                this.apiEndpoint = "post-json";
-            }
-            case "XML" -> {
-                this.parserEndpoint = "MT940toXML";
-                this.apiEndpoint = "post-xml";
-            }
         }
     }
 
