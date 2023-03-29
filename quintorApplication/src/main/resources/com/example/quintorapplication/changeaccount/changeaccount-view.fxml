@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<GridPane hgap="10" prefHeight="401.0" prefWidth="644.0" vgap="10" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quintorapplication.controllers.ChangeAccountController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="360.599951171875" minWidth="10.0" prefWidth="316.599951171875" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="317.400048828125" minWidth="10.0" prefWidth="317.400048828125" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints />
+    </rowConstraints>
+    <children>
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Halant;" styleClass="h1" text="Pas een gebruiker aan" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+        <Label GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+        <TextField maxWidth="250" promptText="Achternaam" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+        <PasswordField maxWidth="250" promptText="Wachtwoord" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5;" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+        <Button style="-fx-background-color: white; -fx-border-color: blue; -fx-border-radius: 5; -fx-font-style: blue;" text="Maak aan" textFill="#1977cf" GridPane.halignment="CENTER" GridPane.rowIndex="6">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <HBox style="-fx-background-color: #a9a9a9; -fx-alignment: center; -fx-padding: 5;" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="7">
+            <Label style="-fx-text-fill: white;" text="© 2023 Quintor" />
+        </HBox>
+        <HBox style="-fx-background-color: #a9a9a9; -fx-alignment: center-left; -fx-padding: 5;" GridPane.columnSpan="2" GridPane.rowIndex="0">
+            <ImageView fitHeight="111.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@logo-square.png" />
+                </image>
+                <viewport>
+                    <Rectangle2D />
+                </viewport>
+            </ImageView>
+            <Region prefWidth="58.0" HBox.hgrow="ALWAYS" />
+            <Label onMousePressed="#switchToDashboard" text="Dashboard">
+                <font>
+                    <Font size="13.0" />
+                </font>
+            </Label>
+        </HBox>
+        <TextField maxWidth="250.0" prefHeight="25.0" prefWidth="322.0" promptText="Naam" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5;" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+        <PasswordField maxWidth="250" promptText="Herhaal wachtwoord" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+        <TextField maxWidth="576.0" prefHeight="26.0" prefWidth="576.0" promptText="Email" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5;" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+        <ChoiceBox fx:id="roleChoice" prefHeight="23.0" prefWidth="249.0" GridPane.halignment="CENTER" GridPane.rowIndex="5" >
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Penningmeester"  />
+                    <String fx:value="Gebruiker"  />
+                </FXCollections>
+            </items>
+        </ChoiceBox>
+        <Button style="-fx-background-color: white; -fx-border-color: #FF0000; -fx-border-radius: 5;" text="Annuleren" textFill="RED" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+    </children>
+</GridPane>
