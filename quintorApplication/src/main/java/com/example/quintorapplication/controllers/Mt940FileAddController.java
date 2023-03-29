@@ -37,13 +37,12 @@ import java.util.Scanner;
 
 public class Mt940FileAddController {
     private File file;
-    private Stage stage;
     private ArrayList<Boolean> checkList;
     @FXML
     private Text feedbackText;
     @FXML
     private Button fileAddButton;
-    private ModeController modeController;
+    private final ModeController modeController;
     @FXML
     private ChoiceBox<String> modeChoiceBox;
     @FXML
@@ -250,7 +249,7 @@ public class Mt940FileAddController {
      */
     public void switchToDashboard(MouseEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StarterApplication.class.getResource("dashboard/dashboard-view.fxml"));
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.show();

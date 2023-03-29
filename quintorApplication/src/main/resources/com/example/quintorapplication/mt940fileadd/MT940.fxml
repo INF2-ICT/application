@@ -59,7 +59,7 @@
             <Font size="30.0" />
          </font>
       </Text>
-      <Button onAction="#upload" style="-fx-background-color: white; -fx-border-color: blue; -fx-border-radius: 5; -fx-font-style: blue;" text="Voeg toe" textFill="#1977cf" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+      <Button onAction="#upload" style="-fx-background-color: white; -fx-border-color: blue; -fx-border-radius: 5;" text="Voeg toe" textFill="#1977cf" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -119,7 +119,7 @@
             <Insets left="25.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="fileAddButton" onAction="#uploadTheFile" style="-fx-background-color: white; -fx-border-color: blue; -fx-border-radius: 5; -fx-font-style: blue;" text="MT940 bestand toevoegen" textFill="#1977cf" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+      <Button fx:id="fileAddButton" onAction="#uploadTheFile" style="-fx-background-color: white; -fx-border-color: blue; -fx-border-radius: 5;" text="MT940 bestand toevoegen" textFill="#1977cf" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

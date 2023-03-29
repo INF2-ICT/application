@@ -15,8 +15,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class BillOverviewController {
-    private Stage stage;
-    private ModeController modeController;
+    private final ModeController modeController;
     @FXML
     private ChoiceBox<String> modeChoiceBox;
     @FXML
@@ -37,7 +36,7 @@ public class BillOverviewController {
 
     public void switchToDashboard(MouseEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StarterApplication.class.getResource("dashboard/dashboard-view.fxml"));
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.show();
