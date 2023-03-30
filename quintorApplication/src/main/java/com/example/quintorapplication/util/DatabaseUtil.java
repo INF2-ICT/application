@@ -47,7 +47,7 @@ public class DatabaseUtil {
      * @throws IOException When connection error
      */
     public String uploadMT940FileToParser(File file, String endpoint) throws IOException {
-        String parserUrl = "http://localhost:8080/" + endpoint;
+        String parserUrl = "http://localhost:8082/" + endpoint;
 
         URL parser = new URL(parserUrl);
 
