@@ -16,7 +16,7 @@ public class DatabaseUtil {
      * @throws Exception if httpURLConnection failed
      */
     public String postApiRequest(String endpoint, HashMap<String, String> headerBody) throws Exception {
-        String ApiUrl = "http://localhost:8081/" + endpoint;
+        String ApiUrl = "http://localhost:8083/" + endpoint;
 
         //Set connection
         HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(ApiUrl).openConnection();
@@ -47,9 +47,9 @@ public class DatabaseUtil {
      * @throws IOException When connection error
      */
     public String uploadMT940FileToParser(File file, String endpoint) throws IOException {
-        String ApiUrl = "http://localhost:8080/" + endpoint;
+        String parserUrl = "http://localhost:8080/" + endpoint;
 
-        URL parser = new URL(ApiUrl);
+        URL parser = new URL(parserUrl);
 
         HttpURLConnection httpURLConnection = (HttpURLConnection) parser.openConnection();
         httpURLConnection.setRequestMethod("POST");
