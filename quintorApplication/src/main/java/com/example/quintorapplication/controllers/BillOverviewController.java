@@ -32,6 +32,12 @@ public class BillOverviewController {
 
     public BillOverviewController() {
         this.modeController = new ModeController();
+
+        //Make call to api to get data
+    }
+
+    public void getTransactions(String mode) {
+
     }
 
     public void switchToDashboard(MouseEvent event) throws IOException {

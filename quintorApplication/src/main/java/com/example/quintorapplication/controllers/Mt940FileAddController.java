@@ -110,8 +110,10 @@ public class Mt940FileAddController {
             if (fileChecked) {
                 String mt940Text = Files.readString(Paths.get(response.toURI()));
 
+//                System.out.println(mt940Text);
+
                 //Validate MT940
-                if (validateMT940(mt940Text)) {
+//                if (validateMT940(mt940Text)) {
                     //Create new database util object
                     DatabaseUtil DB = new DatabaseUtil();
 
@@ -127,9 +129,11 @@ public class Mt940FileAddController {
                     if (Objects.equals(ApiOutput, "Success")) {
                         this.feedbackText.setText("Bestand succesvol toegevoegd!");
                     } else {
-                        this.feedbackText.setText("Er is iets fout gegaan bij het valideren van het bestand!");
+                        this.feedbackText.setText("Het bestand is geen valide MT940 bestand!");
                     }
-                }
+//                } else {
+//                    this.feedbackText.setText("Validatie is fout!");
+//                }
             } else {
                 this.feedbackText.setText("Bestand is geen valide MT940 bestand!");
             }
