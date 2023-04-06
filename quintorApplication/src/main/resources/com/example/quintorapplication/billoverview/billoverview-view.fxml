@@ -74,13 +74,13 @@
             </HBox.margin>
             </Label>
         </HBox>
-        <TableView prefHeight="350.0" prefWidth="1000.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
+        <TableView fx:id="TransactionsData" prefHeight="350.0" prefWidth="1000.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
             <columns>
-                <TableColumn prefWidth="236.0" text="Rekening nummer" />
-                <TableColumn prefWidth="209.0" text="Datum" />
-                <TableColumn prefWidth="181.0" text="Credit of Debit" />
-                <TableColumn prefWidth="165.0" text="Bedrag" />
-                <TableColumn prefWidth="208.0" text="Bekijk" />
+                <TableColumn fx:id="transactionReference" prefWidth="236.0" text="Rekening nummer" />
+                <TableColumn fx:id="valueDate" prefWidth="209.0" text="Datum" />
+                <TableColumn fx:id="transactionType" prefWidth="181.0" text="Credit of Debit" />
+                <TableColumn fx:id="amountInEuro" prefWidth="165.0" text="Bedrag" />
+                <TableColumn fx:id="transactionId" prefWidth="208.0" text="Bekijk" />
             </columns>
         </TableView>
     </children>

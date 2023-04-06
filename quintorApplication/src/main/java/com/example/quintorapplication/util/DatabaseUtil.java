@@ -39,6 +39,38 @@ public class DatabaseUtil {
         return this.getResponse(httpURLConnection);
     }
 
+    public String getApiRequest(String endpoint, HashMap<String, String> headerBody) throws Exception {
+        String ApiUrl = "http://localhost:8083/" + endpoint;
+
+        //Set connection
+        HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(ApiUrl).openConnection();
+        httpURLConnection.setRequestMethod("GET");
+        httpURLConnection.setRequestProperty("Accept", "application/json");
+
+        int responseCode = httpURLConnection.getResponseCode();
+        System.out.println("responsecode = " + responseCode);
+
+        StringBuilder wikiText = new StringBuilder();
+
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            BufferedReader br = new BufferedReader(new InputStreamReader((httpURLConnection.getInputStream())));
+
+            String output;
+
+            while ((output = br.readLine()) != null) {
+                wikiText.append(output);
+            }
+
+            System.out.println(wikiText);
+
+            br.close();
+        }
+
+        httpURLConnection.disconnect();
+
+        return wikiText.toString();
+    }
+
     /**
      * Upload MT940 file to parser with mode json/xml
      * @param file Uploaded MT940 file
