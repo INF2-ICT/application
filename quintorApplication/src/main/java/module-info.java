@@ -7,6 +7,7 @@ module com.example.quintorapplication {
     requires java.net.http;
     requires com.fasterxml.jackson.databind;
     requires json.schema.validator;
+    requires java.sql;
 
     opens com.example.quintorapplication to javafx.fxml;
     exports com.example.quintorapplication;
