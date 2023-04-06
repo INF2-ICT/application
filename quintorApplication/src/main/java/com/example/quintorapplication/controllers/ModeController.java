@@ -34,8 +34,6 @@ public class ModeController {
             }
         }
 
-        System.out.println(this.mode);
-
         return null;
     }
 

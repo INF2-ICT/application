@@ -125,19 +125,24 @@ public class Mt940FileAddController {
                     headerBody.put(this.modeController.getMode().toLowerCase(), parserOutput); //For example "json", "{test: "test"}"
                     String ApiOutput = DB.postApiRequest(this.modeController.getMT940Endpoint(), headerBody);
 
-                    //Receive message from API and output it to the user
-                    if (Objects.equals(ApiOutput, "Success")) {
-                        this.feedbackText.setText("Bestand succesvol toegevoegd!");
-                    } else {
+                    if (!ApiOutput.equals("Success")) {
                         this.feedbackText.setText("Het bestand is geen valide MT940 bestand!");
+                    } else {
+                        HashMap<String, String> raw = new HashMap<>();
+                        raw.put("MT940File", mt940Text);
+                        String rawOutput = DB.postApiRequest("post-raw",raw);
+
+                        if (!rawOutput.equals("Success")) {
+                            this.feedbackText.setText("Er ging iets mis met het uploaden naar MongoDB");
+                        } else {
+                            this.feedbackText.setText("Bestand succesvol toegevoegd!");
+                        }
+//                  } else {
+//                      this.feedbackText.setText("Validatie is fout!");
                     }
-//                } else {
-//                    this.feedbackText.setText("Validatie is fout!");
-//                }
             } else {
                 this.feedbackText.setText("Bestand is geen valide MT940 bestand!");
             }
-
             cancelUpload(); //Set uploaded file to null
         } else {
             this.feedbackText.setText("Geen bestand geupload!");

@@ -5,6 +5,9 @@ module com.example.quintorapplication {
     requires org.kordamp.bootstrapfx.core;
     requires com.prowidesoftware.core;
     requires java.net.http;
+    requires com.fasterxml.jackson.databind;
+    requires json.schema.validator;
+    requires java.sql;
     requires org.json;
 
     opens com.example.quintorapplication.models to javafx.base;

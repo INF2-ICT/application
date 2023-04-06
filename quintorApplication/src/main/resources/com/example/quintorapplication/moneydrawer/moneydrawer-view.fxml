@@ -13,11 +13,8 @@
             <Font size="30.0" />
          </font>
       </Label>
-      <TextField layoutX="489.0" layoutY="200.0" prefHeight="39.0" prefWidth="257.0" promptText="Bedrag" />
-      <TextField layoutX="489.0" layoutY="260.0" prefHeight="39.0" prefWidth="257.0" promptText="Herhaal bedrag" />
-      <TextField layoutX="489.0" layoutY="320.0" prefHeight="39.0" prefWidth="257.0" promptText="Beschrijving" />
-      <TextField layoutX="489.0" layoutY="380.0" prefHeight="39.0" prefWidth="257.0" promptText="Datum dag/maand/jaar" />
-      <TextField layoutX="489.0" layoutY="440.0" prefHeight="39.0" prefWidth="257.0" promptText="Datum dag/maand/jaar" />
+      <TextField layoutX="488.0" layoutY="290.0" prefHeight="39.0" prefWidth="257.0" promptText="Bedrag" fx:id="amountField" />
+      <TextField layoutX="488.0" layoutY="386.0" prefHeight="39.0" prefWidth="257.0" promptText="Beschrijving" fx:id="descriptionField"/>
       <Button layoutX="489.0" layoutY="520.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="120.0" style="-fx-background-color: white; -fx-border-color: #1875D0; -fx-border-radius: 5;" text="Voeg toe" textFill="#1875d0">
          <font>
             <Font size="15.0" />
