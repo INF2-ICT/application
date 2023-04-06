@@ -125,6 +125,12 @@ public class Mt940FileAddController {
                     headerBody.put(this.modeController.getMode().toLowerCase(), parserOutput); //For example "json", "{test: "test"}"
                     String ApiOutput = DB.postApiRequest(this.modeController.getMT940Endpoint(), headerBody);
 
+                    if (Objects.equals(ApiOutput, "Success")) {
+                        HashMap<String, String> raw = new HashMap<>();
+                        raw.put("MT940File", mt940Text);
+                        DB.postApiRequest("post-raw",raw);
+                    }
+
                     //Receive message from API and output it to the user
                     if (Objects.equals(ApiOutput, "Success")) {
                         this.feedbackText.setText("Bestand succesvol toegevoegd!");
