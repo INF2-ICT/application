@@ -130,7 +130,7 @@ public class Mt940FileAddController {
                     } else {
                         HashMap<String, String> raw = new HashMap<>();
                         raw.put("MT940File", mt940Text);
-                        String rawOutput = DB.postApiRequest("post-raw",raw);
+                        String rawOutput = DB.postApiRequest("post-raw", raw);
 
                         if (!rawOutput.equals("Success")) {
                             this.feedbackText.setText("Er ging iets mis met het uploaden naar MongoDB");

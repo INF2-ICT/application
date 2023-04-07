@@ -2,11 +2,34 @@ package com.example.quintorapplication.util;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DatabaseUtil {
+
+    public String postMultiParam(String endpoint, String urlParameters) throws IOException {
+
+        byte[] postData = urlParameters.getBytes();
+        int postDataLength = postData.length;
+
+        URL url = new URL( "http://localhost:8083/" + endpoint );
+
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+        httpURLConnection.setDoOutput( true );
+        httpURLConnection.setInstanceFollowRedirects( false );
+        httpURLConnection.setRequestMethod( "POST" );
+        httpURLConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded");
+        httpURLConnection.setRequestProperty( "charset", "utf-8");
+        httpURLConnection.setRequestProperty( "Content-Length", Integer.toString( postDataLength ));
+        httpURLConnection.setUseCaches( false );
+
+        try( DataOutputStream wr = new DataOutputStream( httpURLConnection.getOutputStream())) {
+            wr.write( postData );
+        }
+        return this.getResponse(httpURLConnection);
+    }
 
     /**
      * Send STRING post request to API

@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -22,17 +23,18 @@ public class MoneyDrawerController {
     @FXML
     private TextField descriptionField;
 
+    @FXML
+    private Button AddButton;
+
     public void addMoney(ActionEvent event) {
         Double amount = Double.parseDouble(amountField.getText());
         String description = descriptionField.getText();
         DatabaseUtil DB = new DatabaseUtil();
 
-        HashMap<String, String> map = new HashMap<>();
-        map.put("amount", amount.toString());
-        map.put("description", description);
+        String params = "amount="+amount+"&description="+description;
 
         try {
-            DB.postApiRequest("post-cash", map);
+            DB.postMultiParam("post-cash", params);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
