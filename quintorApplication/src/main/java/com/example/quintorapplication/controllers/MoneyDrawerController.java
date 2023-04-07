@@ -14,12 +14,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.HashMap;
-
 public class MoneyDrawerController {
     private Stage stage;
     @FXML
     private TextField amountField;
-
     @FXML
     private TextField descriptionField;
 
@@ -50,7 +48,6 @@ public class MoneyDrawerController {
 
     @FXML
     public void initialize() {
-        // Initialize your fields here
         amountField.setText("");
         descriptionField.setText("");
     }

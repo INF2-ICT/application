@@ -71,9 +71,7 @@ public class DatabaseUtil {
         httpURLConnection.setRequestProperty("Accept", "application/json");
 
         int responseCode = httpURLConnection.getResponseCode();
-        System.out.println("responsecode = " + responseCode);
-
-        StringBuilder wikiText = new StringBuilder();
+        StringBuilder responseText = new StringBuilder();
 
         if (responseCode == HttpURLConnection.HTTP_OK) {
             BufferedReader br = new BufferedReader(new InputStreamReader((httpURLConnection.getInputStream())));
@@ -81,17 +79,15 @@ public class DatabaseUtil {
             String output;
 
             while ((output = br.readLine()) != null) {
-                wikiText.append(output);
+                responseText.append(output);
             }
-
-            System.out.println(wikiText);
 
             br.close();
         }
 
         httpURLConnection.disconnect();
 
-        return wikiText.toString();
+        return responseText.toString();
     }
 
     /**

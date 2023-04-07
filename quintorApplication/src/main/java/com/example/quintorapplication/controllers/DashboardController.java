@@ -2,16 +2,30 @@ package com.example.quintorapplication.controllers;
 
 import com.example.quintorapplication.StarterApplication;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class DashboardController {
-
+    @FXML
+    public Button memberAdministration, moneyDrawer, userAdministration, addMember, createAccount, changeMember;
+    @FXML
+    private void initialize() {
+        //Set all unused pages to disabled
+        memberAdministration.setDisable(true);
+        moneyDrawer.setDisable(true);
+        userAdministration.setDisable(true);
+        addMember.setDisable(true);
+        createAccount.setDisable(true);
+        changeMember.setDisable(true);
+    }
     private Stage stage;
+
     public void switchToMoneyDrawer(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StarterApplication.class.getResource("moneydrawer/moneydrawer-view.fxml"));
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();

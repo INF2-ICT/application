@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class ChangeAccountController {
-
     private Stage stage;
 
     public void switchToDashboard(MouseEvent event) throws IOException {
