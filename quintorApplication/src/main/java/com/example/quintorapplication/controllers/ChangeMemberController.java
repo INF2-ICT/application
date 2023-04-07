@@ -1,7 +1,6 @@
 package com.example.quintorapplication.controllers;
 
 import com.example.quintorapplication.StarterApplication;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -12,6 +11,7 @@ import java.io.IOException;
 
 public class ChangeMemberController {
     private Stage stage;
+
     public void switchToDashboard(MouseEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StarterApplication.class.getResource("dashboard/dashboard-view.fxml"));
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();

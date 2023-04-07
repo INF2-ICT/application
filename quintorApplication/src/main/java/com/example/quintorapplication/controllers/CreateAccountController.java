@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class CreateAccountController {
-
     @FXML
     private ChoiceBox<String> roleChoice;
     private Stage stage;

@@ -24,12 +24,8 @@ public class LoginController {
     @FXML
     protected void onLoginButtonClick(ActionEvent event) throws IOException {
         welcomeText.setText("Succesvol ingelogd!");
-//        System.out.println("test");
-//        System.out.println(text.getText());
-//        System.out.println(text1.getText());
         switchToDashboard(event);
     }
-
 
     public void switchToDashboard(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StarterApplication.class.getResource("dashboard/dashboard-view.fxml"));

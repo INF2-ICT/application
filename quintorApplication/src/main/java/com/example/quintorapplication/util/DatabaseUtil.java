@@ -2,11 +2,34 @@ package com.example.quintorapplication.util;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DatabaseUtil {
+
+    public String postMultiParam(String endpoint, String urlParameters) throws IOException {
+
+        byte[] postData = urlParameters.getBytes();
+        int postDataLength = postData.length;
+
+        URL url = new URL( "http://localhost:8083/" + endpoint );
+
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+        httpURLConnection.setDoOutput( true );
+        httpURLConnection.setInstanceFollowRedirects( false );
+        httpURLConnection.setRequestMethod( "POST" );
+        httpURLConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded");
+        httpURLConnection.setRequestProperty( "charset", "utf-8");
+        httpURLConnection.setRequestProperty( "Content-Length", Integer.toString( postDataLength ));
+        httpURLConnection.setUseCaches( false );
+
+        try( DataOutputStream wr = new DataOutputStream( httpURLConnection.getOutputStream())) {
+            wr.write( postData );
+        }
+        return this.getResponse(httpURLConnection);
+    }
 
     /**
      * Send STRING post request to API
@@ -16,7 +39,7 @@ public class DatabaseUtil {
      * @throws Exception if httpURLConnection failed
      */
     public String postApiRequest(String endpoint, HashMap<String, String> headerBody) throws Exception {
-        String ApiUrl = "http://localhost:8081/" + endpoint;
+        String ApiUrl = "http://localhost:8083/" + endpoint;
 
         //Set connection
         HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(ApiUrl).openConnection();
@@ -40,6 +63,40 @@ public class DatabaseUtil {
     }
 
     /**
+     * Function to send a GET request to API
+     * @param endpoint endpoint of api
+     * @return api message
+     * @throws Exception
+     */
+    public String getApiRequest(String endpoint) throws Exception {
+        String ApiUrl = "http://localhost:8083/" + endpoint;
+
+        //Set connection
+        HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(ApiUrl).openConnection();
+        httpURLConnection.setRequestMethod("GET");
+        httpURLConnection.setRequestProperty("Accept", "application/json");
+
+        int responseCode = httpURLConnection.getResponseCode();
+        StringBuilder responseText = new StringBuilder();
+
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            BufferedReader br = new BufferedReader(new InputStreamReader((httpURLConnection.getInputStream())));
+
+            String output;
+
+            while ((output = br.readLine()) != null) {
+                responseText.append(output);
+            }
+
+            br.close();
+        }
+
+        httpURLConnection.disconnect();
+
+        return responseText.toString();
+    }
+
+    /**
      * Upload MT940 file to parser with mode json/xml
      * @param file Uploaded MT940 file
      * @param endpoint xml / json endpoint
@@ -47,9 +104,9 @@ public class DatabaseUtil {
      * @throws IOException When connection error
      */
     public String uploadMT940FileToParser(File file, String endpoint) throws IOException {
-        String ApiUrl = "http://localhost:8080/" + endpoint;
+        String parserUrl = "http://localhost:8082/" + endpoint;
 
-        URL parser = new URL(ApiUrl);
+        URL parser = new URL(parserUrl);
 
         HttpURLConnection httpURLConnection = (HttpURLConnection) parser.openConnection();
         httpURLConnection.setRequestMethod("POST");
