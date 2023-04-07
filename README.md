@@ -1,8 +1,9 @@
+
 # Running the Application
 
 ## Introduction
 
-This guide will walk you through the steps to run a Java application from a GitHub repository. We will assume that you have already cloned the repository to your local machine and have installed any necessary dependencies, such as an API and Docker.
+This guide will walk you through the steps to run a Java application from a GitHub repository. We will assume that you have already cloned the repository to your local machine and have installed any necessary dependencies, such as an API and Docker. There will also be a file named `example.env`. Change the file name to `.env` so that the program runs optimally.
 
 ## Cloning the Repository
 
@@ -17,8 +18,15 @@ To clone the repository, follow these steps:
 
 To set up the database, follow these steps:
 
-1.  Locate the `quintor.sql` file that is included with the repository.
-2.  Import the file into both MariaDB and MongoDB. This will create the necessary tables and data for the application to run.
+ 1.  Locate the `quintor.sql` file that is included with the repository.
+ 2.  Import the file into both MariaDB and MongoDB. This will create the necessary tables and data for the application to run.
+
+ There are a couple of extra things that are necessary before everything can be used properly such as ports for the api and parser, but also the usage of a username and password in order to login to the mongodb and mariadb:
+
+ - parser: 8082
+ - api: 8083
+ - username: root
+ - password: (just blank)
 
 ## Running the Application
 
