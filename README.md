@@ -3,7 +3,7 @@
 
 ## Introduction
 
-This guide will walk you through the steps to run a Java application from a GitHub repository. We will assume that you have already cloned the repository to your local machine and have installed any necessary dependencies, such as an API and Docker. There will also be a file named `example.env`. Change the file name to `.env` so that the program runs optimally.
+This guide will walk you through the steps to run a Java application from a GitHub repository. We will assume that you have already cloned the repository to your local machine and have installed any necessary dependencies, such as an API and Docker.
 
 ## Cloning the Repository
 
