@@ -62,7 +62,13 @@ public class DatabaseUtil {
         return this.getResponse(httpURLConnection);
     }
 
-    public String getApiRequest(String endpoint, HashMap<String, String> headerBody) throws Exception {
+    /**
+     * Function to send a GET request to API
+     * @param endpoint endpoint of api
+     * @return api message
+     * @throws Exception
+     */
+    public String getApiRequest(String endpoint) throws Exception {
         String ApiUrl = "http://localhost:8083/" + endpoint;
 
         //Set connection

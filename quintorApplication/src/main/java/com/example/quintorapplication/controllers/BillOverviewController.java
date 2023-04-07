@@ -91,11 +91,8 @@ public class BillOverviewController {
         ObservableList<TransactionModel> transactions = FXCollections.observableArrayList(); //List with all transaction models that will be sent back
 
         //Send received XML/JSON to API to validate it in schemas and mariaDB
-        HashMap<String, String> headerBody = new HashMap<>(); //Header - Body
-        headerBody.put("mode", this.modeController.getMode().toLowerCase());
-
         if (this.modeController.getMode().toLowerCase().equals("json")) { //JSON
-            String receivedData = DB.getApiRequest(this.modeController.getAllTransactionsEndpoint(), headerBody);
+            String receivedData = DB.getApiRequest(this.modeController.getAllTransactionsEndpoint());
             JSONArray jsonArray = new JSONArray(receivedData);
             ArrayList<JSONObject> jsonList = new ArrayList<>();
 
@@ -122,7 +119,7 @@ public class BillOverviewController {
                 }
             }
         } else { //XML
-            String receivedData =  DB.getApiRequest(this.modeController.getAllTransactionsEndpoint(), headerBody);
+            String receivedData =  DB.getApiRequest(this.modeController.getAllTransactionsEndpoint());
 
             //Edit received string
             receivedData = receivedData.substring(1, receivedData.length() - 1); //Remove characters [ & ]
