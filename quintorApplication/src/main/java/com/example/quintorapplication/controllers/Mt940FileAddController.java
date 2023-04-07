@@ -116,12 +116,11 @@ public class Mt940FileAddController {
                     String rawOutput = DB.postApiRequest("post-raw", raw);
 
                     if (!ApiOutput.equals("Success") && !rawOutput.equals("Success")) {
-                            this.feedbackText.setText("Het bestand is geen valide MT940 bestand!");
+                        this.feedbackText.setText("Het bestand is geen valide MT940 bestand!");
                     } else {
                         this.feedbackText.setText("Bestand succesvol toegevoegd!");
                     }
-//                  } else {
-//                      this.feedbackText.setText("Validatie is fout!");
+                }
             } else {
                 this.feedbackText.setText("Bestand is geen valide MT940 bestand!");
             }
