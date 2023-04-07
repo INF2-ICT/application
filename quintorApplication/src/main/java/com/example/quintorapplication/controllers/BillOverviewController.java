@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -48,6 +49,8 @@ public class BillOverviewController {
     @FXML
     public TableColumn<TransactionModel, Integer> transactionId;
     @FXML
+    public TextField transactionSearch;
+    @FXML
     private ChoiceBox<String> modeChoiceBox;
     @FXML
     private void initialize() throws Exception {
@@ -69,6 +72,8 @@ public class BillOverviewController {
         amountInEuro.setCellValueFactory(new PropertyValueFactory<>("amount_in_euro"));
         transactionId.setCellValueFactory(new PropertyValueFactory<>("id"));
         TransactionsData.setItems(getTransactions());
+
+        transactionSearch.setDisable(true);//Set search box disabled, as it's not working
     }
 
     private void setMode(ActionEvent actionEvent) {

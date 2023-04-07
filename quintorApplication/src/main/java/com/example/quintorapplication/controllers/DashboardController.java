@@ -13,10 +13,11 @@ import java.io.IOException;
 
 public class DashboardController {
     @FXML
-    public Button memberAdministration, userAdministration, addMember, createAccount, changeMember;
+    public Button memberAdministration, moneyDrawer, userAdministration, addMember, createAccount, changeMember;
     @FXML
     private void initialize() {
         //Set all unused pages to disabled
+        moneyDrawer.setDisable(true);
         memberAdministration.setDisable(true);
         userAdministration.setDisable(true);
         addMember.setDisable(true);

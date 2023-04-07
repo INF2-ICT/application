@@ -12,7 +12,7 @@
          <Font name="Arial" size="30.0" />
       </font>
    </Label>
-   <Button alignment="CENTER" contentDisplay="CENTER" layoutX="283.0" layoutY="253.0" mnemonicParsing="false" onAction="#switchToMoneyDrawer" prefHeight="157.0" prefWidth="210.0" text="KASGELD DECLAREREN" />
+   <Button fx:id="moneyDrawer" alignment="CENTER" contentDisplay="CENTER" layoutX="283.0" layoutY="253.0" mnemonicParsing="false" onAction="#switchToMoneyDrawer" prefHeight="157.0" prefWidth="210.0" style="-fx-background-color: #a9a9a9;" text="KASGELD DECLAREREN" />
    <Button alignment="CENTER" contentDisplay="CENTER" layoutX="508.0" layoutY="253.0" mnemonicParsing="false" onAction="#switchToMt940FileAdd" prefHeight="157.0" prefWidth="210.0" text="INLEZEN MT940" />
    <Button alignment="CENTER" contentDisplay="CENTER" layoutX="733.0" layoutY="253.0" mnemonicParsing="false" onAction="#switchToBillOverview" prefHeight="157.0" prefWidth="210.0" text="OVERZICHT REKENINGEN" />
    <Button fx:id="userAdministration" alignment="CENTER" contentDisplay="CENTER" layoutX="58.0" layoutY="443.0" mnemonicParsing="false" onAction="#switchToUserAdministration" prefHeight="157.0" prefWidth="210.0" style="-fx-background-color: #a9a9a9;" text="GEBRUIKERSADMINISTRATIE" textAlignment="JUSTIFY" />
