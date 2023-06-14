@@ -17,8 +17,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -61,16 +60,18 @@ public class Mt940FileAddController {
     }
 
     /**
-     * Sets uploaded file to field `file`
-     * Also changes upload button name to uploaded file name
-     *
-     * @param event Actionevent
+     * Event handler for uploading a file.
+     * @param event the ActionEvent representing the upload event
      */
     public void uploadTheFile(ActionEvent event) {
+        // Create a FileChooser object to allow the user to select a file
         FileChooser fileChooser = new FileChooser();
-        this.file = fileChooser.showOpenDialog(null);
+
+        // Show the file chooser dialog and wait for the user to select a file
+        this.file = fileChooser.showOpenDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
 
         if (this.file != null) {
+            // Update the text of the fileAddButton to display the selected file name
             this.fileAddButton.setText(this.file.getName());
         }
     }
@@ -81,55 +82,104 @@ public class Mt940FileAddController {
      * @throws IOException
      */
     public void upload() throws Exception {
-        File response = this.file;
-        boolean fileChecked = false;
-
-        if (response != null) {
-            //Scanner to read lines from file
-            Scanner sc = new Scanner(response);
-            while (sc.hasNextLine()) {
-                if (sc.nextLine().length() > 0) {
-                    fileChecked = true;
-                }
-            }
-
-            //If there is content and read out all lines
-            if (fileChecked) {
-                String mt940Text = Files.readString(Paths.get(response.toURI()));
-
+        if (this.file != null) {
+            if (checkIfFileHasContent()) {
                 //Create new database util object
                 DatabaseUtil DB = new DatabaseUtil();
-
-                //Send file to Parser based on set mode XML/JSON
                 String parserOutput = DB.uploadMT940FileToParser(this.file, this.modeController.getParserEndpoint());
+
+                String mt940Text = Files.readString(Paths.get(this.file.toURI()));
 
                 //Send received XML/JSON to API to validate it in schemas and mariaDB
                 HashMap<String, String> headerBody = new HashMap<>(); //Header - Body
                 headerBody.put(this.modeController.getMode().toLowerCase(), parserOutput); //For example "json", "{test: "test"}"
                 String ApiOutput = DB.postApiRequest(this.modeController.getMT940Endpoint(), headerBody);
-
-                if (!ApiOutput.equals("Success")) {
+                if (ApiOutput == null) {
+                    this.feedbackText.setText("Bestand is dan null");
+                } else if (!ApiOutput.equals("Success")) {
                     this.feedbackText.setText("Het bestand is geen valide MT940 bestand!");
                 } else {
                     HashMap<String, String> raw = new HashMap<>();
                     raw.put("MT940File", mt940Text);
                     String rawOutput = DB.postApiRequest("post-raw", raw);
 
-                    if (!ApiOutput.equals("Success") && !rawOutput.equals("Success")) {
-                        this.feedbackText.setText("Het bestand is geen valide MT940 bestand!");
-                    } else {
-                        this.feedbackText.setText("Bestand succesvol toegevoegd!");
-                    }
+                    this.feedbackText.setText("Bestand succesvol toegevoegd!");
                 }
             } else {
                 this.feedbackText.setText("Bestand is geen valide MT940 bestand!");
             }
-            cancelUpload(); //Set uploaded file to null
         } else {
             this.feedbackText.setText("Geen bestand geupload!");
         }
 
+//        boolean fileChecked = false;
+//        if (response != null) {
+//            //Scanner to read lines from file
+//            Scanner sc = new Scanner(response);
+//            while (sc.hasNextLine()) {
+//                if (sc.nextLine().length() > 0) {
+//                    fileChecked = true;
+//                }
+//            }
+//
+//            //If there is content and read out all lines
+//            if (fileChecked) {
+//                String mt940Text = Files.readString(Paths.get(response.toURI()));
+//
+//                //Create new database util object
+//                DatabaseUtil DB = new DatabaseUtil();
+//
+//                //Send file to Parser based on set mode XML/JSON
+//                String parserOutput = DB.uploadMT940FileToParser(this.file, this.modeController.getParserEndpoint());
+//
+//                //Send received XML/JSON to API to validate it in schemas and mariaDB
+//                HashMap<String, String> headerBody = new HashMap<>(); //Header - Body
+//                headerBody.put(this.modeController.getMode().toLowerCase(), parserOutput); //For example "json", "{test: "test"}"
+//                String ApiOutput = DB.postApiRequest(this.modeController.getMT940Endpoint(), headerBody);
+//
+//                if (!ApiOutput.equals("Success")) {
+//                    this.feedbackText.setText("Het bestand is geen valide MT940 bestand!");
+//                } else {
+//                    HashMap<String, String> raw = new HashMap<>();
+//                    raw.put("MT940File", mt940Text);
+//                    String rawOutput = DB.postApiRequest("post-raw", raw);
+//
+//                    if (!ApiOutput.equals("Success") && !rawOutput.equals("Success")) {
+//                        this.feedbackText.setText("Het bestand is geen valide MT940 bestand!");
+//                    } else {
+//                        this.feedbackText.setText("Bestand succesvol toegevoegd!");
+//                    }
+//                }
+//            } else {
+//                this.feedbackText.setText("Bestand is geen valide MT940 bestand!");
+//            }
+//            cancelUpload(); //Set uploaded file to null
+//        } else {
+//            this.feedbackText.setText("Geen bestand geupload!");
+//        }
     }
+
+    /**
+     * Checks if the file has any content
+     * @return true if the file has content, false otherwise
+     * @throws FileNotFoundException if the file does not exist
+     */
+    public boolean checkIfFileHasContent() throws FileNotFoundException {
+        try {
+            // Scanner to read lines from file
+            Scanner sc = new Scanner(this.file);
+            while (sc.hasNextLine()) {
+                if (sc.nextLine().length() > 0) {
+                    return true;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + e.getMessage());
+        }
+
+        return false;
+    }
+
 
     /**
      * Function to switch scene to dashboard
