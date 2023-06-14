@@ -2,10 +2,12 @@ package com.example.quintorapplication.util;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+
 
 public class DatabaseUtil {
 
@@ -104,23 +106,66 @@ public class DatabaseUtil {
      * @throws IOException When connection error
      */
     public String uploadMT940FileToParser(File file, String endpoint) throws IOException {
-        String parserUrl = "http://localhost:8082/" + endpoint;
+        // Prepare the request
+        String apiUrl = "http://localhost:8082/" + endpoint; // Replace with your actual API endpoint URL
+        String boundary = UUID.randomUUID().toString();
+        URL url = new URL(apiUrl);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
+        connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
 
-        URL parser = new URL(parserUrl);
+        // Write the file data to the request body
+        try (OutputStream outputStream = connection.getOutputStream()) {
+            writeFormFieldForMultipartFile(outputStream, "file", file, boundary);
+        }
 
-        HttpURLConnection httpURLConnection = (HttpURLConnection) parser.openConnection();
-        httpURLConnection.setRequestMethod("POST");
-        httpURLConnection.setRequestProperty("Accept", "application/json");
-        httpURLConnection.setDoOutput(true);
+        // Get the response from the API
+        int responseCode = connection.getResponseCode();
+        String responseMessage = connection.getResponseMessage();
+        String responseBody = null;
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            try (InputStream inputStream = connection.getInputStream()) {
+                StringBuilder responseBuilder = new StringBuilder();
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        responseBuilder.append(line);
+                    }
+                }
+                responseBody = responseBuilder.toString();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
-        String params = "file=" + file;
+        // Process the response if needed
+        //System.out.println("Response code: " + responseCode);
+        //System.out.println("Response message: " + responseMessage);
+        //System.out.println("Response body: " + responseBody);
 
-        OutputStream os = httpURLConnection.getOutputStream();
-        os.write(params.getBytes());
-        os.flush();
-        os.close();
+        return responseBody;
+    }
 
-        return this.getResponse(httpURLConnection);
+    private void writeFormFieldForMultipartFile(OutputStream outputStream, String fieldName, File file, String boundary) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        builder.append("--").append(boundary).append("\r\n");
+        builder.append("Content-Disposition: form-data; name=\"").append(fieldName).append("\"; filename=\"").append(file.getName()).append("\"\r\n");
+        builder.append("Content-Type: ").append(URLConnection.guessContentTypeFromName(file.getName())).append("\r\n");
+        builder.append("\r\n");
+
+        outputStream.write(builder.toString().getBytes());
+
+        try (FileInputStream inputStream = new FileInputStream(file)) {
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            outputStream.write("\r\n".getBytes());
+        }
+
+        outputStream.write(("--" + boundary + "--\r\n").getBytes());
     }
 
     /**
