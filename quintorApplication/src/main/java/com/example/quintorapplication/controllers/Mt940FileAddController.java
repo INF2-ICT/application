@@ -84,14 +84,32 @@ public class Mt940FileAddController {
     public void upload() throws Exception {
         if (this.file != null) {
             if (checkIfFileHasContent()) {
-                System.out.println("I read the data and it is correct.");
-
                 //Create new database util object
                 DatabaseUtil DB = new DatabaseUtil();
                 String parserOutput = DB.uploadMT940FileToParser(this.file, this.modeController.getParserEndpoint());
 
-                System.out.println(parserOutput);
+                String mt940Text = Files.readString(Paths.get(this.file.toURI()));
+
+                //Send received XML/JSON to API to validate it in schemas and mariaDB
+                HashMap<String, String> headerBody = new HashMap<>(); //Header - Body
+                headerBody.put(this.modeController.getMode().toLowerCase(), parserOutput); //For example "json", "{test: "test"}"
+                String ApiOutput = DB.postApiRequest(this.modeController.getMT940Endpoint(), headerBody);
+                if (ApiOutput == null) {
+                    this.feedbackText.setText("Bestand is dan null");
+                } else if (!ApiOutput.equals("Success")) {
+                    this.feedbackText.setText("Het bestand is geen valide MT940 bestand!");
+                } else {
+                    HashMap<String, String> raw = new HashMap<>();
+                    raw.put("MT940File", mt940Text);
+                    String rawOutput = DB.postApiRequest("post-raw", raw);
+
+                    this.feedbackText.setText("Bestand succesvol toegevoegd!");
+                }
+            } else {
+                this.feedbackText.setText("Bestand is geen valide MT940 bestand!");
             }
+        } else {
+            this.feedbackText.setText("Geen bestand geupload!");
         }
 
 //        boolean fileChecked = false;
