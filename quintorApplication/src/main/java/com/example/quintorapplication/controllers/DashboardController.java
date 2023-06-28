@@ -90,6 +90,7 @@ public class DashboardController {
     }
 
     public void billview(ActionEvent event) throws IOException {
+        SingleBillOverviewController.transactionId = 1;
         FXMLLoader fxmlLoader = new FXMLLoader(StarterApplication.class.getResource("singlebilloverview/singlebilloverview-view.fxml"));
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         Scene scene = new Scene(fxmlLoader.load());

@@ -22,6 +22,7 @@ import java.time.LocalDate;
 
 public class SingleBillOverviewController {
     private Stage stage;
+    public static int transactionId;
     private final ModeController modeController;
     @FXML
     public TableView<SingleTransactionModel> transactionData;
@@ -60,6 +61,8 @@ public class SingleBillOverviewController {
         creditDebit.setCellValueFactory(new PropertyValueFactory<>("credit_debit"));
         identificationCode.setCellValueFactory(new PropertyValueFactory<>("identification_code"));
         referentialOwner.setCellValueFactory(new PropertyValueFactory<>("referential_owner"));
+
+        System.out.println(transactionId);
     }
 
     public SingleBillOverviewController() {
