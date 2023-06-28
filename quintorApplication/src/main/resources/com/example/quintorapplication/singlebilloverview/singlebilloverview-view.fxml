@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -12,69 +16,124 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<GridPane hgap="10" prefHeight="401.0" prefWidth="247.0" vgap="10" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quintorapplication.controllers.SingleBillOverviewController">
+<GridPane hgap="10" prefHeight="800.0" prefWidth="1000.0" vgap="10" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quintorapplication.controllers.SingleBillOverviewController">
     <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="194.0" minHeight="174.0" prefHeight="194.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="232.0" minHeight="10.0" prefHeight="207.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="376.0" minHeight="10.0" prefHeight="322.0" vgrow="SOMETIMES" />
       <RowConstraints />
     </rowConstraints>
-    <children>
-        <GridPane GridPane.rowIndex="5">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" />
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints vgrow="ALWAYS" />
-            </rowConstraints>
-        </GridPane>
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Halant;" styleClass="h1" text="Rekening overzicht" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-        <Label GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Rekeningnummer lid/gebruiker" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-        <HBox style="-fx-background-color: #a9a9a9; -fx-alignment: center; -fx-padding: 5;" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6">
-            <Label style="-fx-text-fill: white;" text="© 2023 Quintor" />
-        </HBox>
-        <HBox style="-fx-background-color: #a9a9a9; -fx-alignment: center-left; -fx-padding: 5;" GridPane.columnSpan="2" GridPane.rowIndex="0">
+   <children>
+      <HBox prefHeight="10.0" style="-fx-background-color: #a9a9a9; -fx-alignment: center-left; -fx-padding: 5;">
+         <children>
             <ImageView fitHeight="111.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
-                <image>
-                    <Image url="@logo-square.png" />
-                </image>
-                <viewport>
-                    <Rectangle2D />
-                </viewport>
+               <image>
+                  <Image url="@../billoverview/logo-square.png" />
+               </image>
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
             </ImageView>
-            <Region prefWidth="58.0" HBox.hgrow="ALWAYS" />
+            <GridPane>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Modus" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="modeChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <Region prefWidth="500.0" HBox.hgrow="ALWAYS" />
             <Label onMousePressed="#switchToDashboard" text="Dashboard">
-                <font>
-                    <Font size="13.0" />
-                </font>
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="6.0" />
+               </HBox.margin>
             </Label>
-        </HBox>
-        <TableView prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="4">
-            <columns>
-                <TableColumn prefWidth="75.0" text="Bedrag" />
-                <TableColumn prefWidth="75.0" text="Omschrijving" />
-                <TableColumn prefWidth="75.0" text="Datum" />
-                <TableColumn prefWidth="75.0" text="Credit/Debit" />
-            </columns>
-        </TableView>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Naam lid/gebruiker" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-    </children>
+         </children>
+      </HBox>
+      <GridPane GridPane.rowIndex="1">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <GridPane GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Transactie referentie" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+               </children>
+            </GridPane>
+            <GridPane GridPane.columnIndex="2">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Button mnemonicParsing="false" style="-fx-background-color: white; -fx-border-color: FF0000; -fx-border-radius: 5;" text="Verwijder transactie" textFill="RED" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+                  <Button style="-fx-background-color: white; -fx-border-color: blue; -fx-border-radius: 5;" text="Omschrijving toevoegen" textFill="#1977cf" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+               </children>
+            </GridPane>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="Overzicht transactie" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <padding>
+                  <Insets top="25.0" />
+               </padding>
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+         </children>
+      </GridPane>
+      <TableView fx:id="transactionData" GridPane.rowIndex="2">
+        <columns>
+          <TableColumn fx:id="amountInEuro" prefWidth="102.0" text="Bedrag" />
+            <TableColumn fx:id="description" prefWidth="403.0" text="Omschrijving" />
+            <TableColumn fx:id="valueDate" prefWidth="125.0" text="Datum" />
+            <TableColumn fx:id="creditDebit" prefWidth="96.0" text="Credit/Debit" />
+            <TableColumn fx:id="identificationCode" prefWidth="135.0" text="Indentificatie code" />
+            <TableColumn fx:id="referentialOwner" minWidth="0.0" prefWidth="138.0" text="Referentie_eigenaar" />
+        </columns>
+      </TableView>
+   </children>
 </GridPane>
