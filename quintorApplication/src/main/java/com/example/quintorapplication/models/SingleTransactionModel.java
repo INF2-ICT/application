@@ -5,17 +5,15 @@ import com.example.quintorapplication.enums.TransactionType;
 import java.time.LocalDate;
 
 public class SingleTransactionModel {
-    private int id;
-    private double amountInEuro;
+    private double amount_in_euro;
     private String description;
     private LocalDate value_date;
     private TransactionType transactionType;
     private String identificationCode;
     private String ownerReferential;
 
-    public SingleTransactionModel(int id, double amountInEuro, String description, LocalDate value_date, TransactionType transactionType, String identificationCode, String ownerReferential) {
-        this.id = id;
-        this.amountInEuro = amountInEuro;
+    public SingleTransactionModel(double amount_in_euro, String description, LocalDate value_date, TransactionType transactionType, String identificationCode, String ownerReferential) {
+        this.amount_in_euro = amount_in_euro;
         this.description = description;
         this.value_date = value_date;
         this.transactionType = transactionType;
@@ -23,20 +21,12 @@ public class SingleTransactionModel {
         this.ownerReferential = ownerReferential;
     }
 
-    public int getId() {
-        return id;
+    public double getAmount_in_euro() {
+        return amount_in_euro;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public double getAmountInEuro() {
-        return amountInEuro;
-    }
-
-    public void setAmountInEuro(double amountInEuro) {
-        this.amountInEuro = amountInEuro;
+    public void setAmount_in_euro(double amount_in_euro) {
+        this.amount_in_euro = amount_in_euro;
     }
 
     public String getDescription() {
