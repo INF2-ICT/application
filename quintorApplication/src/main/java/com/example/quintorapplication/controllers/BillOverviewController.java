@@ -89,7 +89,6 @@ public class BillOverviewController {
 
                             // Perform actions based on the transactionId
                             Stage stage;
-                            System.out.println("Button clicked for Transaction ID: " + transactionId); // For testing purposes
                             SingleBillOverviewController.transactionId = transactionId;
                             FXMLLoader fxmlLoader = new FXMLLoader(StarterApplication.class.getResource("singlebilloverview/singlebilloverview-view.fxml"));
                             stage = (Stage) ((Node)event.getSource()).getScene().getWindow();

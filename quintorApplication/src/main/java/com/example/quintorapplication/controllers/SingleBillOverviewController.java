@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -48,9 +49,10 @@ public class SingleBillOverviewController {
     public TableColumn<SingleTransactionModel, String> identificationCode;
     @FXML
     public TableColumn<SingleTransactionModel, String> referentialOwner;
-
     @FXML
     private ChoiceBox<String> modeChoiceBox;
+    @FXML
+    private Label transactionReference;
     @FXML
     private void initialize() throws Exception {
         ObservableList<String> modeList = FXCollections.observableArrayList("JSON", "XML");
@@ -91,9 +93,7 @@ public class SingleBillOverviewController {
 
         //Send received XML/JSON to API to validate it in schemas and mariaDB
         if (this.modeController.getMode().toLowerCase().equals("json")) { //JSON
-
             String receivedData = DB.getApiRequest("transaction/" + this.modeController.getMode().toLowerCase() + "/" + transactionId);
-            //System.out.println("recieved =" + receivedData);
 
             JSONArray jsonArray = new JSONArray(receivedData);
 
@@ -109,14 +109,16 @@ public class SingleBillOverviewController {
             for (JSONObject jsonObject : jsonList) {
                 //Read json object
                 try {
+                    //Get id - for deleting transaction
                     String identification_code = jsonObject.getString("identification_code");
                     String transactionReference = jsonObject.getString("transaction_reference"); //put this to label
                     TransactionType transactionType = TransactionType.valueOf(jsonObject.getString("transaction_type"));
                     double amountInEuro = jsonObject.getDouble("amount_in_euro");
                     String owner_referential = jsonObject.getString("owner_referential");
                     LocalDate valueDate = LocalDate.parse(jsonObject.getString("value_date"));
-                    String description = "TEST"; //Only for test purposes right now.
+                    String description = jsonObject.getString("description");
 
+                    setTransactionReference(transactionReference);
                     //Add contents to transaction array
                     transactions.add(new SingleTransactionModel(amountInEuro, description, valueDate, transactionType, identification_code, owner_referential));
                 } catch (Exception e) {
@@ -124,10 +126,7 @@ public class SingleBillOverviewController {
                 }
             }
         } else {
-            System.out.println("mode is xml");
-            //XML
             String receivedData = DB.getApiRequest("transaction/" + this.modeController.getMode().toLowerCase() + "/" + transactionId);
-            System.out.println(receivedData); //Testing
 
             //Get XML objects
             String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + receivedData; //Set XML mode to XML string
@@ -141,6 +140,7 @@ public class SingleBillOverviewController {
                 doc.getDocumentElement().normalize();
 
                 //Get contents of XML object
+                //Get id - for deleting transaction
                 String transaction_reference = doc.getElementsByTagName("transaction_reference").item(0).getTextContent();
                 String description = doc.getElementsByTagName("description").item(0).getTextContent();
                 LocalDate valueDate = LocalDate.parse(doc.getElementsByTagName("value_date").item(0).getTextContent());
@@ -149,20 +149,11 @@ public class SingleBillOverviewController {
                 String identification_code = doc.getElementsByTagName("identification_code").item(0).getTextContent();
                 String owner_referential = doc.getElementsByTagName("owner_referential").item(0).getTextContent();
 
+                setTransactionReference(transaction_reference);
                 transactions.add(new SingleTransactionModel(amountInEuro, description, valueDate, transactionType, identification_code, owner_referential));
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-
-        for (SingleTransactionModel transaction : transactions) {
-            System.out.println(transaction.getAmount_in_euro());
-            System.out.println(transaction.getDescription());
-            System.out.println(transaction.getValue_date());
-            System.out.println(transaction.getTransactionType());
-            System.out.println(transaction.getIdentificationCode());
-            System.out.println(transaction.getOwnerReferential());
-            System.out.println("-------------------------");
         }
 
         //Return list of all transactions
@@ -171,6 +162,10 @@ public class SingleBillOverviewController {
 
     private void setMode(ActionEvent actionEvent) {
         this.modeController.setMode(this.modeChoiceBox.getSelectionModel().getSelectedItem());
+    }
+
+    public void setTransactionReference(String transactionReference) {
+        this.transactionReference.setText(transactionReference);
     }
 
     public void switchToDashboard(MouseEvent event) throws IOException {
