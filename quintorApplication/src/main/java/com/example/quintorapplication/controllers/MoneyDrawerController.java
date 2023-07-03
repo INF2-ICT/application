@@ -75,50 +75,43 @@ public class MoneyDrawerController {
             TransactionType type = transactiontypeField.getValue();
             String description = descriptionField.getText();
 
+            boolean output = false;
+
             try {
                 KasgeldModel kasgeldModel = new KasgeldModel(amount, referention, date, type, description);
                 DatabaseUtil DB = new DatabaseUtil();
 
                 if (this.modeController.getMode().toLowerCase().equals("json")) {
-                    System.out.println(kasgeldModel.convertToJson());
-
                     HashMap<String, String> headerBody = new HashMap<>();
                     headerBody.put("transactionData", kasgeldModel.convertToJson());
 
                     String ApiOutput = DB.postApiRequest("transaction/" + this.modeController.getMode().toLowerCase(), headerBody);
 
-                    System.out.println(ApiOutput);
+                    output = Boolean.parseBoolean(ApiOutput);
                 } else {
-                    System.out.println(kasgeldModel.convertToXml());
-
                     HashMap<String, String> headerBody = new HashMap<>();
                     headerBody.put("transactionData", kasgeldModel.convertToXml());
 
                     String ApiOutput = DB.postApiRequest("transaction/" + this.modeController.getMode().toLowerCase(), headerBody);
 
-                    System.out.println(ApiOutput);
+                    output = Boolean.parseBoolean(ApiOutput);
                 }
 
-                feedbackLabel.setText("Transactie toegevoegd.");
+                if (output) {
+                    feedbackLabel.setText("Transactie toegevoegd.");
+                } else {
+                    feedbackLabel.setText("Er is een fout opgetreden met het verwerken van de transactie.");
+                }
             } catch (Exception e) {
-                e.printStackTrace();
-                feedbackLabel.setText("Er is iets fout gegaan");
+                feedbackLabel.setText("Er is iets fout gegaan met het invoeren van de transactie.");
             }
         } else {
             feedbackLabel.setText("Een of meerdere velden zijn incorrect ingevoerd.");
         }
+    }
 
-//        Double amount = Double.parseDouble(amountField.getText());
-//        String description = descriptionField.getText();
-//        DatabaseUtil DB = new DatabaseUtil();
-//
-//        String params = "amount="+amount+"&description="+description;
-//
-//        try {
-//            DB.postMultiParam("post-cash", params);
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
+    public void clearFields(ActionEvent event) {
+        
     }
 
     private void setMode(ActionEvent actionEvent) {

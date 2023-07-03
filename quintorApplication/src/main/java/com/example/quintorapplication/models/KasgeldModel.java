@@ -41,7 +41,7 @@ public class KasgeldModel {
                         "<value_date>" + date + "</value_date>" +
                         "<transaction_type>" + transactionType + "</transaction_type>" +
                         "<description>" + description + "</description>" +
-                        "</transaction>";
+                "</transaction>";
     }
 
 
