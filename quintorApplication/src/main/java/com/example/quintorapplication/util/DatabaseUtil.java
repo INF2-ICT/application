@@ -10,29 +10,6 @@ import java.util.UUID;
 
 
 public class DatabaseUtil {
-
-    public String postMultiParam(String endpoint, String urlParameters) throws IOException {
-
-        byte[] postData = urlParameters.getBytes();
-        int postDataLength = postData.length;
-
-        URL url = new URL( "http://localhost:8083/" + endpoint );
-
-        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-        httpURLConnection.setDoOutput( true );
-        httpURLConnection.setInstanceFollowRedirects( false );
-        httpURLConnection.setRequestMethod( "POST" );
-        httpURLConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded");
-        httpURLConnection.setRequestProperty( "charset", "utf-8");
-        httpURLConnection.setRequestProperty( "Content-Length", Integer.toString( postDataLength ));
-        httpURLConnection.setUseCaches( false );
-
-        try( DataOutputStream wr = new DataOutputStream( httpURLConnection.getOutputStream())) {
-            wr.write( postData );
-        }
-        return this.getResponse(httpURLConnection);
-    }
-
     /**
      * Send STRING post request to API
      * @param endpoint endpoint of API
@@ -166,6 +143,29 @@ public class DatabaseUtil {
         }
 
         outputStream.write(("--" + boundary + "--\r\n").getBytes());
+    }
+
+    public String deleteApiRequest(String endpoint, HashMap<String, String> headerParams) throws IOException {
+        String apiUrl = "http://localhost:8083/" + endpoint;
+
+        // Set connection
+        HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
+        connection.setRequestMethod("DELETE");
+        connection.setRequestProperty("Accept", "application/json");
+        connection.setDoOutput(true);
+
+        OutputStream os = connection.getOutputStream();
+
+        // Loop over HashMap with header parameters
+        for (Map.Entry<String, String> entry : headerParams.entrySet()) {
+            String param = entry.getKey();
+            String value = entry.getValue();
+
+            String header = param + "=" + value;
+            os.write(header.getBytes());
+        }
+
+        return getResponse(connection);
     }
 
     /**

@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SingleBillOverviewController {
     private Stage stage;
@@ -174,5 +175,20 @@ public class SingleBillOverviewController {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void deleteTransaction(MouseEvent event) throws IOException {
+        DatabaseUtil DB = new DatabaseUtil();
+
+        HashMap<String, String> headerBody = new HashMap<>();
+        String ApiOutput = DB.deleteApiRequest("transaction/" + transactionId, headerBody);
+
+        if (ApiOutput.equals("true")) {
+            FXMLLoader fxmlLoader = new FXMLLoader(StarterApplication.class.getResource("dashboard/dashboard-view.fxml"));
+            stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(fxmlLoader.load());
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 }
