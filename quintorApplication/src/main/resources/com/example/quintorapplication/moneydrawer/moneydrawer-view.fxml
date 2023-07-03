@@ -25,13 +25,13 @@
          </font>
       </Label>
       <TextField fx:id="amountField" layoutX="361.0" layoutY="279.0" prefHeight="39.0" prefWidth="257.0" promptText="Bedrag" />
-      <TextField fx:id="descriptionField" layoutX="361.0" layoutY="330.0" prefHeight="39.0" prefWidth="257.0" promptText="Beschrijving" />
-      <Button layoutX="362.0" layoutY="540.0" mnemonicParsing="false" onAction="#addMoney" prefHeight="39.0" prefWidth="120.0" style="-fx-background-color: white; -fx-border-color: #1875D0; -fx-border-radius: 5;" text="Voeg toe" textFill="#1875d0">
+      <TextField fx:id="descriptionField" layoutX="362.0" layoutY="471.0" prefHeight="39.0" prefWidth="257.0" promptText="Beschrijving" />
+      <Button layoutX="362.0" layoutY="564.0" mnemonicParsing="false" onAction="#addMoney" prefHeight="39.0" prefWidth="120.0" style="-fx-background-color: white; -fx-border-color: #1875D0; -fx-border-radius: 5;" text="Voeg toe" textFill="#1875d0">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button layoutX="500.0" layoutY="540.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="120.0" style="-fx-background-color: white; -fx-border-color: #FF0000; -fx-border-radius: 5;" text="Annuleren" textFill="RED">
+      <Button layoutX="500.0" layoutY="564.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="120.0" style="-fx-background-color: white; -fx-border-color: #FF0000; -fx-border-radius: 5;" text="Annuleren" textFill="RED">
          <font>
             <Font size="15.0" />
          </font>
@@ -76,8 +76,9 @@
             </Label>
          </children>
       </HBox>
-      <TextField layoutX="362.0" layoutY="481.0" prefHeight="39.0" prefWidth="257.0" promptText="Credit/Debut" />
-      <ChoiceBox layoutX="362.0" layoutY="437.0" prefHeight="25.0" prefWidth="257.0" />
-      <DatePicker layoutX="362.0" layoutY="388.0" prefHeight="25.0" prefWidth="257.0" promptText="dd/mm/year" />
+      <TextField fx:id="referentionField" layoutX="361.0" layoutY="333.0" prefHeight="39.0" prefWidth="257.0" promptText="Referentie" />
+      <ChoiceBox fx:id="transactiontypeField" layoutX="361.0" layoutY="430.0" prefHeight="25.0" prefWidth="257.0" />
+      <DatePicker fx:id="dateField" layoutX="362.0" layoutY="388.0" prefHeight="25.0" prefWidth="257.0" promptText="dd/mm/year" />
+      <Label fx:id="feedbackLabel" alignment="CENTER" layoutX="317.0" layoutY="528.0" prefHeight="17.0" prefWidth="348.0" textAlignment="CENTER" />
    </children>
 </Pane>

@@ -17,7 +17,6 @@ public class DashboardController {
     @FXML
     private void initialize() {
         //Set all unused pages to disabled
-        moneyDrawer.setDisable(true);
         memberAdministration.setDisable(true);
         userAdministration.setDisable(true);
         addMember.setDisable(true);
