@@ -31,7 +31,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Button layoutX="500.0" layoutY="564.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="120.0" style="-fx-background-color: white; -fx-border-color: #FF0000; -fx-border-radius: 5;" text="Annuleren" textFill="RED">
+      <Button layoutX="500.0" layoutY="564.0" mnemonicParsing="false" onAction="#clearFields" prefHeight="39.0" prefWidth="120.0" style="-fx-background-color: white; -fx-border-color: #FF0000; -fx-border-radius: 5;" text="Annuleren" textFill="RED">
          <font>
             <Font size="15.0" />
          </font>

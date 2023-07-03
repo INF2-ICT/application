@@ -99,6 +99,11 @@ public class MoneyDrawerController {
 
                 if (output) {
                     feedbackLabel.setText("Transactie toegevoegd.");
+                    this.amountField.setText("0.0");
+                    this.referentionField.setText("");
+                    this.dateField.setValue(null);
+                    this.transactiontypeField.setValue(TransactionType.C);
+                    this.descriptionField.setText("");
                 } else {
                     feedbackLabel.setText("Er is een fout opgetreden met het verwerken van de transactie.");
                 }
@@ -111,7 +116,12 @@ public class MoneyDrawerController {
     }
 
     public void clearFields(ActionEvent event) {
-        
+        this.amountField.setText("0.0");
+        this.referentionField.setText("");
+        this.dateField.setValue(null);
+        this.transactiontypeField.setValue(TransactionType.C);
+        this.descriptionField.setText("");
+        this.feedbackLabel.setText("");
     }
 
     private void setMode(ActionEvent actionEvent) {
