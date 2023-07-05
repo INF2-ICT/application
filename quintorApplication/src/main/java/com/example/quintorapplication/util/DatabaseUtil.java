@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -164,6 +165,36 @@ public class DatabaseUtil {
             String header = param + "=" + value;
             os.write(header.getBytes());
         }
+
+        return getResponse(connection);
+    }
+
+    /**
+     * Send STRING put request to API
+     *
+     * @param endpoint   endpoint of API
+     * @param queryParams Map with query parameters
+     * @return String output of API
+     * @throws Exception if httpURLConnection failed
+     */
+    public String putApiRequest(String endpoint, HashMap<String, String> queryParams) throws Exception {
+        String apiUrl = "http://localhost:8083/" + endpoint;
+
+        // Build query parameters
+        StringBuilder queryString = new StringBuilder();
+        if (queryParams != null && !queryParams.isEmpty()) {
+            for (Map.Entry<String, String> entry : queryParams.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                queryString.append("&").append(key).append("=").append(URLEncoder.encode(value, "UTF-8"));
+            }
+        }
+
+        // Set connection
+        HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl + "?" + queryString.substring(1)).openConnection();
+        connection.setRequestMethod("PUT");
+        connection.setRequestProperty("Accept", "application/json");
+        connection.setDoOutput(true);
 
         return getResponse(connection);
     }

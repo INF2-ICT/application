@@ -36,6 +36,7 @@ public class SingleBillOverviewController {
     private Stage stage;
     public static int transactionId;
     private final ModeController modeController;
+    private SingleTransactionModel singleTransactionModel;
     @FXML
     public TableView<SingleTransactionModel> transactionData;
     @FXML
@@ -120,8 +121,10 @@ public class SingleBillOverviewController {
                     String description = jsonObject.getString("description");
 
                     setTransactionReference(transactionReference);
-                    //Add contents to transaction array
-                    transactions.add(new SingleTransactionModel(amountInEuro, description, valueDate, transactionType, identification_code, owner_referential));
+
+                    SingleTransactionModel transactionModel = new SingleTransactionModel(amountInEuro, description, valueDate, transactionType, identification_code, owner_referential);
+                    this.singleTransactionModel = transactionModel;
+                    transactions.add(transactionModel);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -151,7 +154,10 @@ public class SingleBillOverviewController {
                 String owner_referential = doc.getElementsByTagName("owner_referential").item(0).getTextContent();
 
                 setTransactionReference(transaction_reference);
-                transactions.add(new SingleTransactionModel(amountInEuro, description, valueDate, transactionType, identification_code, owner_referential));
+
+                SingleTransactionModel transactionModel = new SingleTransactionModel(amountInEuro, description, valueDate, transactionType, identification_code, owner_referential);
+                this.singleTransactionModel = transactionModel;
+                transactions.add(transactionModel);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -190,5 +196,16 @@ public class SingleBillOverviewController {
             stage.setScene(scene);
             stage.show();
         }
+    }
+
+    public void addDescription(MouseEvent event) throws IOException {
+        TransactionDescriptionAddController.transactionId = transactionId;
+        TransactionDescriptionAddController.description = singleTransactionModel.getDescription();
+
+        FXMLLoader fxmlLoader = new FXMLLoader(StarterApplication.class.getResource("transactionDescriptionAdd/transactionDescriptionAdd-view.fxml"));
+        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+        stage.show();
     }
 }

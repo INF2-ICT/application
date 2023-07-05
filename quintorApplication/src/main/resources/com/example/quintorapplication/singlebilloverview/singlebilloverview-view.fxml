@@ -105,7 +105,7 @@
                         <Font size="20.0" />
                      </font>
                   </Button>
-                  <Button style="-fx-background-color: white; -fx-border-color: blue; -fx-border-radius: 5;" text="Omschrijving toevoegen" textFill="#1977cf" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <Button onMouseClicked="#addDescription" style="-fx-background-color: white; -fx-border-color: blue; -fx-border-radius: 5;" text="Omschrijving toevoegen" textFill="#1977cf" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
