@@ -117,11 +117,6 @@ public class DatabaseUtil {
             }
         }
 
-        // Process the response if needed
-        //System.out.println("Response code: " + responseCode);
-        //System.out.println("Response message: " + responseMessage);
-        //System.out.println("Response body: " + responseBody);
-
         return responseBody;
     }
 
