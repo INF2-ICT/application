@@ -7,6 +7,8 @@ import com.example.quintorapplication.models.TransactionModel;
 import com.example.quintorapplication.util.DatabaseUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -71,6 +73,38 @@ public class BillOverviewController {
         transactionId.setCellValueFactory(new PropertyValueFactory<>("id"));
         TransactionsData.setItems(getTransactions()); //Get all transactions on first startup
 
+        //make a FilteredList from the TransactionModel
+        FilteredList<TransactionModel> filteredData = new FilteredList<>(getTransactions(), b -> true);
+
+        //check on the text property of the transactionSearch
+        transactionSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(transactionModel -> {
+
+                if (newValue.isEmpty() || newValue.isBlank() || newValue == null) {
+                    return true;
+                }//small check for if the transactionSearch is empty
+
+                String searchKeyWord = newValue.toLowerCase();
+
+                if (transactionModel.getTransaction_reference().toLowerCase().indexOf(searchKeyWord) > -1) {
+                    return true;
+                } else if (transactionModel.getTransactionType().toString().toLowerCase().indexOf(searchKeyWord) > -1) {
+                    return true;
+                } else if (transactionModel.getValue_date().toString().toLowerCase().indexOf(searchKeyWord) > -1) {
+                    return true;
+                } else {
+                    return false;
+                } //check on different types of searchable data and check whether they are typed in or not
+            });
+        });
+
+        //make a SortedList to check the filteredData
+        SortedList<TransactionModel> sortedData = new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(TransactionsData.comparatorProperty());
+
+        TransactionsData.setItems(sortedData); //then bind and compare the two lists and set the new items in the table
+
         // Create a custom cell factory for the column
         Callback<TableColumn<TransactionModel, Integer>, TableCell<TransactionModel, Integer>> cellFactory = column -> {
             final TableCell<TransactionModel, Integer> cell = new TableCell<TransactionModel, Integer>() {
@@ -112,7 +146,7 @@ public class BillOverviewController {
         transactionId.setCellFactory(cellFactory);
 
 
-        transactionSearch.setDisable(true);//Set search box disabled, as it's not working
+        //transactionSearch.setDisable(true);//Set search box disabled, as it's not working
     }
 
     private void setMode(ActionEvent actionEvent) {
