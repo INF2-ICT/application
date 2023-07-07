@@ -107,12 +107,8 @@ public class Mt940FileAddController {
                     // Post the raw MT940 file to mongodb
                     HashMap<String, String> raw = new HashMap<>();
 
-                    System.out.println(mt940Text);
-
                     raw.put("MT940File", mt940Text);
-                    String rawOutput = DB.postApiRequest("post-raw", raw);
-
-                    System.out.println(rawOutput);
+                    DB.postApiRequest("post-raw", raw);
 
                     this.feedbackText.setText("Bestand succesvol toegevoegd!");
                 }
