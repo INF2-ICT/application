@@ -7,15 +7,14 @@ import com.example.quintorapplication.models.TransactionModel;
 import com.example.quintorapplication.util.DatabaseUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -33,6 +32,7 @@ import org.xml.sax.InputSource;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javafx.util.Callback;
 
 public class BillOverviewController {
     private final ModeController modeController;
@@ -71,9 +71,78 @@ public class BillOverviewController {
         transactionType.setCellValueFactory(new PropertyValueFactory<>("transactionType"));
         amountInEuro.setCellValueFactory(new PropertyValueFactory<>("amount_in_euro"));
         transactionId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        TransactionsData.setItems(getTransactions());
+        TransactionsData.setItems(getTransactions()); //Get all transactions on first startup
 
-        transactionSearch.setDisable(true);//Set search box disabled, as it's not working
+        //make a FilteredList from the TransactionModel
+        FilteredList<TransactionModel> filteredData = new FilteredList<>(getTransactions(), b -> true);
+
+        //check on the text property of the transactionSearch
+        transactionSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(transactionModel -> {
+                //small check for if the transactionSearch is empty
+                if (newValue.isEmpty() || newValue.isBlank() || newValue == null) {
+                    return true;
+                }
+
+                String searchKeyWord = newValue.toLowerCase();
+
+                //check on different types of searchable data and check whether they are typed in or not
+                if (transactionModel.getTransaction_reference().toLowerCase().contains(searchKeyWord)) {
+                    return true;
+                } else if (transactionModel.getTransactionType().toString().toLowerCase().contains(searchKeyWord)) {
+                    return true;
+                } else if (transactionModel.getValue_date().toString().toLowerCase().contains(searchKeyWord)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        });
+
+        //make a SortedList to check the filteredData
+        SortedList<TransactionModel> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(TransactionsData.comparatorProperty());
+        TransactionsData.setItems(sortedData);
+
+        // Create a custom cell factory for the column
+        Callback<TableColumn<TransactionModel, Integer>, TableCell<TransactionModel, Integer>> cellFactory = column -> {
+            final TableCell<TransactionModel, Integer> cell = new TableCell<TransactionModel, Integer>() {
+                @Override
+                protected void updateItem(Integer itemId, boolean empty) {
+                    super.updateItem(itemId, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        // Create a button for the cell
+                        Button button = new Button("Bekijk");
+                        button.setOnAction(event -> {
+                            // Handle button click event
+                            TransactionModel transaction = getTableView().getItems().get(getIndex());
+                            int transactionId = transaction.getId();
+
+                            // Perform actions based on the transactionId
+                            Stage stage;
+                            SingleBillOverviewController.transactionId = transactionId;
+                            FXMLLoader fxmlLoader = new FXMLLoader(StarterApplication.class.getResource("singlebilloverview/singlebilloverview-view.fxml"));
+                            stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                            Scene scene = null;
+                            try {
+                                scene = new Scene(fxmlLoader.load());
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            stage.setScene(scene);
+                            stage.show();
+                        });
+                        setGraphic(button);
+                    }
+                }
+            };
+            return cell;
+        };
+
+        // Set the cell factory for the column
+        transactionId.setCellFactory(cellFactory);
     }
 
     private void setMode(ActionEvent actionEvent) {
